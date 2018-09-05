@@ -12,15 +12,16 @@ class Timestamp(models.Model):
 
 
 class Country(models.Model):
-    pass
+    name = models.CharField(unique=True, max_length=20)
 
 
 class Genre(models.Model):
-    pass
+    name = models.CharField(unique=True, max_length=20)
 
 
 class PublishingHouse(Timestamp):
-    pass
+    name = models.CharField(max_length=35)
+    country = models.ForeignKey(Country, on_delete=models.CASCADE)
 
 
 class Author(Timestamp):
