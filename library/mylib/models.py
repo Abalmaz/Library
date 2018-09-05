@@ -24,7 +24,16 @@ class PublishingHouse(Timestamp):
 
 
 class Author(Timestamp):
-    pass
+    first_name = models.CharField(max_length=25)
+    second_name = models.CharField(max_length=25)
+    middle_name = models.CharField(max_length=25)
+    pseudonym = models.CharField(max_length=25)
+    birth_date = models.DateField()
+    death_date = models.DateField()
+    biography = models.TextField()
+    country = models.ForeignKey(Country, on_delete=models.CASCADE)
+    genre = models.ManyToManyField(Genre, on_delete=models.CASCADE)
+    photo = models.ImageField()
 
 
 class Book(Timestamp):
@@ -33,6 +42,6 @@ class Book(Timestamp):
     number_page = models.IntegerField()
     publishing = models.ForeignKey(PublishingHouse, on_delete=models.CASCADE)
     authors = models.ManyToManyField(Author, on_delete=models.CASCADE)
-    genre = models.ManyToManyField(Author, on_delete=models.CASCADE)
-    description = models.TextField(blank=True, null=True)
+    genre = models.ManyToManyField(Genre, on_delete=models.CASCADE)
+    description = models.TextField()
     cover = models.ImageField()
