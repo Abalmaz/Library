@@ -50,10 +50,10 @@ class Author(Timestamp):
         return '%s %s %s' % (self.first_name, self.middle_name, self.second_name)
 
     def short_name(self):
-        # if self.pseudonym:
-        #     return '%s' % (self.pseudonym)
-        # else:
-        return '%s %s. %s.' % (self.second_name, self.first_name[0].capitalize(), self.middle_name[0].capitalize())
+        if self.pseudonym:
+            return '{}'.format(self.pseudonym)
+        else:
+            return '{} {}. {}.'.format(self.second_name, self.first_name[0].capitalize(), self.middle_name[0].capitalize())
 
 
 class Book(Timestamp):
@@ -62,6 +62,6 @@ class Book(Timestamp):
     number_page = models.IntegerField()
     publishing = models.ForeignKey(PublishingHouse, on_delete=models.CASCADE)
     authors = models.ManyToManyField(Author)
-    genre = models.ManyToManyField(Genre)
+    genre = models.ManyToManyField(Genre, related_name='books')
     description = models.TextField()
     cover = models.ImageField(blank=True)

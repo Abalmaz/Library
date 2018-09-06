@@ -19,3 +19,9 @@ class BookInfoView(DetailView):
 class BookListView(ListView):
     model = Book
     paginate_by = 10
+
+    def get_queryset(self):
+        # order = 'title'
+        order = self.request.GET.get('order_by', 'pk')
+        new_context = Book.objects.all().order_by(order)
+        return new_context

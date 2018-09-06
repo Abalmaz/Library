@@ -4,26 +4,30 @@
 <table class="table">
     <thead class="thead-inverse">
       <tr>
-        <th>Book title</th>
-        <th>Year</th>
-        <th>Authors</th>
-        <th>Genres</th>
+          <th><a href="?order_by=title">Book title</a></th>
+          <th><a href="?order_by=year">Year</a></th>
+          <th>Authors</th>
+          <th>Genres</th>
       </tr>
     </thead>
     <tbody>
       {% for book in object_list %}
         <tr>
             <td class="align-middle">
-                <a href="{% url 'books_info' book.pk %}">{{ book.title }}</a>
+                <a href="{% url 'book_info' book.pk %}">{{ book.title }}</a>
             </td>
             <td class="align-middle">
                 {{ book.year }}
             </td>
             <td>
-                <ul>{% for author in book.authors.all %}<li><a href="{% url 'authors_info' author.pk %}">{{ author.pseudonym }}</a></li>{% endfor %}</ul>
+                <ul>
+                    {% for author in book.authors.all %}
+                    <li><a href="{% url 'author_info' author.pk %}">{{ author.short_name }}</a></li>
+                    {% endfor %}
+                </ul>
             </td>
             <td>
-                <ul>{% for g in book.genre.all %}<li>{{ g.name }}</li>{% endfor %}</ul>
+                <ul>{% for g in book.genre.all|slice:"0:3" %}<li>{{ g.name }}</li>{% endfor %}</ul>
             </td>
         </tr>
       {% endfor %}
