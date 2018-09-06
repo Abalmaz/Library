@@ -14,27 +14,36 @@ class Timestamp(models.Model):
 class Country(models.Model):
     name = models.CharField(unique=True, max_length=20)
 
+    def __str__(self):
+        return self.name
+
 
 class Genre(models.Model):
     name = models.CharField(unique=True, max_length=20)
+
+    def __str__(self):
+        return self.name
 
 
 class PublishingHouse(Timestamp):
     name = models.CharField(max_length=35)
     country = models.ForeignKey(Country, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return self.name
+
 
 class Author(Timestamp):
     first_name = models.CharField(max_length=25)
     second_name = models.CharField(max_length=25)
-    middle_name = models.CharField(max_length=25)
-    pseudonym = models.CharField(max_length=25)
+    middle_name = models.CharField(max_length=25, blank=True)
+    pseudonym = models.CharField(max_length=25, blank=True)
     birth_date = models.DateField()
-    death_date = models.DateField()
+    death_date = models.DateField(blank=True)
     biography = models.TextField()
     country = models.ForeignKey(Country, on_delete=models.CASCADE)
     genre = models.ManyToManyField(Genre)
-    photo = models.ImageField()
+    photo = models.ImageField(blank=True)
 
 
 class Book(Timestamp):
@@ -45,4 +54,4 @@ class Book(Timestamp):
     authors = models.ManyToManyField(Author)
     genre = models.ManyToManyField(Genre)
     description = models.TextField()
-    cover = models.ImageField()
+    cover = models.ImageField(blank=True)

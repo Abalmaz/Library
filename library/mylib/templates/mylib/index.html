@@ -1,12 +1,32 @@
 {% extends 'mylib/base.html' %}
 
 {% block body %}
-    <ul>
-        {% for book in books %}
-            <li>{{ book.title }}</li>
-            <li>{{ book.year }}</li>
-            <li>{{ book.authors }}</li>
-            <li>{{ book.genre }}</li>
-        {% endfor %}
-    </ul>
+<table class="table">
+    <thead class="thead-inverse">
+      <tr>
+        <th>Book title</th>
+        <th>Year</th>
+        <th>Authors</th>
+        <th>Genres</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for book in books %}
+        <tr>
+            <td class="align-middle">
+                {{ book.title }}
+            </td>
+            <td class="align-middle">
+                {{ book.year }}
+            </td>
+            <td>
+                <ul>{% for author in book.authors.all %}<li>{{ author.pseudonym }}</li>{% endfor %}</ul>
+            </td>
+            <td>
+                <ul>{% for g in book.genre.all %}<li>{{ g.name }}</li>{% endfor %}</ul>
+            </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+</table>
 {% endblock %}
