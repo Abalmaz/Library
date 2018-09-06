@@ -33,16 +33,16 @@ class Author(Timestamp):
     death_date = models.DateField()
     biography = models.TextField()
     country = models.ForeignKey(Country, on_delete=models.CASCADE)
-    genre = models.ManyToManyField(Genre, on_delete=models.CASCADE)
+    genre = models.ManyToManyField(Genre)
     photo = models.ImageField()
 
 
 class Book(Timestamp):
     title = models.CharField(unique=True, max_length=80)
-    year = models.IntegerField(max_length=4)
+    year = models.IntegerField()
     number_page = models.IntegerField()
     publishing = models.ForeignKey(PublishingHouse, on_delete=models.CASCADE)
-    authors = models.ManyToManyField(Author, on_delete=models.CASCADE)
-    genre = models.ManyToManyField(Genre, on_delete=models.CASCADE)
+    authors = models.ManyToManyField(Author)
+    genre = models.ManyToManyField(Genre)
     description = models.TextField()
     cover = models.ImageField()
