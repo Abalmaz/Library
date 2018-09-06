@@ -18,3 +18,4 @@ class BookInfoView(DetailView):
 
 class BookListView(ListView):
     model = Book
+    paginate_by = 10
