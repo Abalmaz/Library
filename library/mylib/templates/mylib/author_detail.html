@@ -1,8 +1,8 @@
 {% extends 'mylib/base.html' %}
 
 {% block body %}
-    <h3>{{ author.pseudonym }}</h3>
-    <p>Name: {{ author.first_name }} {{ author.middle_name }} {{ author.second_name }}</p>
+    <h3>{{ author.short_name }}</h3>
+    <p>Name: {{ author.full_name }} </p>
     <p>Years: {{ author.birth_date }} {{ authors.death_date }}</p>
     <p>Country: {{ author.country }}</p>
     <p>Genre:

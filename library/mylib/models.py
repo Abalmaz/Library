@@ -45,6 +45,16 @@ class Author(Timestamp):
     genre = models.ManyToManyField(Genre)
     photo = models.ImageField(blank=True)
 
+    @property
+    def full_name(self):
+        return '%s %s %s' % (self.first_name, self.middle_name, self.second_name)
+
+    def short_name(self):
+        # if self.pseudonym:
+        #     return '%s' % (self.pseudonym)
+        # else:
+        return '%s %s. %s.' % (self.second_name, self.first_name[0].capitalize(), self.middle_name[0].capitalize())
+
 
 class Book(Timestamp):
     title = models.CharField(unique=True, max_length=80)
