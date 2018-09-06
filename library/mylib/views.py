@@ -1,9 +1,20 @@
 from django.shortcuts import render
-from .models import Book
+from django.views.generic import DetailView, ListView
+
+from .models import Book, Author
 
 # Create your views here.
 
 
-def index(request):
-    books = Book.objects.all()
-    return render(request, 'mylib/index.html', {'books': books})
+class AuthorInfoView(DetailView):
+    context_object_name = 'author'
+    queryset = Author.objects.all()
+
+
+class BookInfoView(DetailView):
+    context_object_name = 'book'
+    queryset = Book.objects.all()
+
+
+class BookListView(ListView):
+    model = Book

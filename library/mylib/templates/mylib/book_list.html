@@ -11,7 +11,7 @@
       </tr>
     </thead>
     <tbody>
-      {% for book in books %}
+      {% for book in object_list %}
         <tr>
             <td class="align-middle">
                 <a href="{% url 'books_info' book.pk %}">{{ book.title }}</a>

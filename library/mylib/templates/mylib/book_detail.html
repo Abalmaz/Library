@@ -1,0 +1,15 @@
+{% extends 'mylib/base.html' %}
+
+{% block body %}
+    <h3>{{ book.title }}</h3>
+    <p>Authors:
+        <ul>{% for author in book.authors.all %}<li>{{ author.pseudonym }}</li>{% endfor %}</ul>
+    <p>Genre:
+        <ul>{% for g in book.genre.all %}<li>{{ g }}</li>{% endfor %}</ul>
+    </p>
+    <p>Year: {{ book.year }}</p>
+    <p>Count of pages: {{ book.number_page }}</p>
+    <p>Publisher: {{ book.publishing }}</p>
+    <p>Description: {{ book.description }}</p>
+
+{% endblock %}
