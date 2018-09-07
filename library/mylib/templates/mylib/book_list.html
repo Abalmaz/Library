@@ -9,7 +9,7 @@
               <!--<a href="?order_by=-title" class="fa fa-fw fa-sort-down"></a>-->
           </th>
           <th>Year<a href="?order_by=year" class="fa fa-fw  fa-sort-up"></a></th>
-          <th>Authors</th>
+          <th>Authors<a href="?order_by=authors" class="fa fa-fw  fa-sort-up"></a></th>
           <th>Genres</th>
       </tr>
     </thead>
@@ -24,7 +24,7 @@
             </td>
             <td>
                 <ul class="list-unstyled">
-                    {% for author in book.get_authors %}
+                    {% for author in book.authors.all %}
                     <li><a href="{% url 'author_info' author.pk %}">{{ author.short_name }}</a></li>
                     {% endfor %}
                 </ul>

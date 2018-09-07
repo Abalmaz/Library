@@ -20,8 +20,16 @@ class BookListView(ListView):
     model = Book
     paginate_by = 5
 
+    def get_ordering(self):
+        return self.request.GET.get('order_by', 'pk')
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(BookListView, self).get_context_data(*args, **kwargs)
+        context['order_by'] = self.get_ordering()
+        return context
+
     def get_queryset(self):
         # order = 'title'
-        order = self.request.GET.get('order_by', 'pk')
+        order = self.get_ordering()
         new_context = Book.objects.all().order_by(order)
         return new_context

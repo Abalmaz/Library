@@ -60,6 +60,8 @@ class Author(Timestamp):
         else:
             return '{} {}.'.format(self.second_name, self.first_name[0].capitalize())
 
+    class Meta:
+        ordering = ('second_name',)
 
 
 class Book(Timestamp):
@@ -75,5 +77,3 @@ class Book(Timestamp):
     def __str__(self):
         return self.title
 
-    def get_authors(self):
-        return self.authors.all().order_by('second_name')
