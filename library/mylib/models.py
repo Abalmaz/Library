@@ -65,3 +65,6 @@ class Book(Timestamp):
     genre = models.ManyToManyField(Genre, related_name='books')
     description = models.TextField()
     cover = models.ImageField(blank=True)
+
+    def get_authors(self):
+        return self.authors.all().order_by('second_name')
