@@ -18,7 +18,7 @@ class BookInfoView(DetailView):
 
 class BookListView(ListView):
     model = Book
-    paginate_by = 10
+    paginate_by = 5
 
     def get_queryset(self):
         # order = 'title'
