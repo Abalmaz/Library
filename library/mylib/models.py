@@ -39,7 +39,7 @@ class Author(Timestamp):
     middle_name = models.CharField(max_length=25, blank=True)
     pseudonym = models.CharField(max_length=25, blank=True)
     birth_date = models.DateField()
-    death_date = models.DateField(blank=True)
+    death_date = models.DateField(blank=True, null=True)
     biography = models.TextField()
     country = models.ForeignKey(Country, on_delete=models.CASCADE)
     genre = models.ManyToManyField(Genre)
@@ -70,10 +70,20 @@ class Book(Timestamp):
     number_page = models.IntegerField()
     publishing = models.ForeignKey(PublishingHouse, on_delete=models.CASCADE)
     authors = models.ManyToManyField(Author)
+    authors2 = models.ManyToManyField(Author, through='BookAuthor', related_name='book_author')
     genre = models.ManyToManyField(Genre, related_name='books')
     description = models.TextField()
     cover = models.ImageField(blank=True)
 
     def __str__(self):
         return self.title
+
+
+class BookAuthor(models.Model):
+    book = models.ForeignKey(Book, on_delete=models.CASCADE)
+    genre = models.ForeignKey(Author, on_delete=models.CASCADE)
+    order = models.PositiveSmallIntegerField()
+
+    class Meta:
+        ordering = ('order',)
 

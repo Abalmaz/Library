@@ -31,5 +31,5 @@ class BookListView(ListView):
     def get_queryset(self):
         # order = 'title'
         order = self.get_ordering()
-        new_context = Book.objects.all().order_by(order)
+        new_context = Book.objects.all().order_by(order).distinct()
         return new_context
