@@ -9,6 +9,7 @@
 3. Load data to DB:
   python manage.py loaddata country.json
   python manage.py loaddata genre.json
+  python manage.py loaddata PublishingHouse.json
   python manage.py loaddata author.json
   python manage.py loaddata book.json
   
