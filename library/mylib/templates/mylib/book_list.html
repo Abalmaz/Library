@@ -1,4 +1,5 @@
 {% extends 'mylib/base.html' %}
+{% load ratings %}
 
 {% block body %}
 <table class="table">
@@ -10,6 +11,7 @@
           <th>Year<a href="?order_by=year" class="fa fa-fw  fa-sort-up"></a></th>
           <th>Authors<a href="?order_by=authors__second_name" class="fa fa-fw  fa-sort-up"></a></th>
           <th>Genres</th>
+          <th>Rating</th>
       </tr>
     </thead>
     <tbody>
@@ -30,6 +32,9 @@
             </td>
             <td>
                 <ul class="list-unstyled">{% for g in book.genre.all|slice:"0:3" %}<li>{{ g.name }}</li>{% endfor %}</ul>
+            </td>
+            <td>
+                {% ratings book %}
             </td>
         </tr>
       {% endfor %}
