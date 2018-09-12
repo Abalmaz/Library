@@ -81,6 +81,8 @@ class Book(Timestamp):
 class BookAuthor(models.Model):
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
     author = models.ForeignKey(Author, on_delete=models.CASCADE)
-    order = models.IntegerField()
+    order = models.IntegerField(default=0)
 
+    class Meta:
+        auto_created = True
 
