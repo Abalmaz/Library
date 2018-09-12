@@ -1,8 +1,8 @@
 /env
 /.idea
 db.sqlite3
-*.__pycache__
-/library/library/__pycache__/
-/library/mylib/__pycache__/
-/library/mylib/migrations/__pycache__/
+.*.__pycache__
+./library/library/__pycache__
+./library/mylib/__pycache__/*
+./library/mylib/migrations/__pycache__/
 
