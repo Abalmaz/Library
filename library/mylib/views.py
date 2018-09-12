@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.db.models import Min
 from django.views.generic import DetailView, ListView
 
 from .models import Book, Author
@@ -29,7 +30,9 @@ class BookListView(ListView):
         return context
 
     def get_queryset(self):
-        # order = 'title'
         order = self.get_ordering()
-        new_context = Book.objects.all().order_by(order).distinct()
+        if order == 'authors__second_name':
+            new_context = Book.objects.annotate(x=Min('bookauthor__order')).order_by('x', order)
+        else:
+            new_context = Book.objects.order_by(order)
         return new_context

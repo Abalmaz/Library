@@ -46,7 +46,7 @@ class Author(Timestamp):
     photo = models.ImageField(blank=True)
 
     def __str__(self):
-        return self.short_name
+        return self.second_name
 
     @property
     def full_name(self):
@@ -69,8 +69,8 @@ class Book(Timestamp):
     year = models.IntegerField()
     number_page = models.IntegerField()
     publishing = models.ForeignKey(PublishingHouse, on_delete=models.CASCADE)
-    authors = models.ManyToManyField(Author, through='BookAuthor', related_name='book_author')
-    genre = models.ManyToManyField(Genre, related_name='books')
+    authors = models.ManyToManyField(Author, through='BookAuthor')
+    genre = models.ManyToManyField(Genre)
     description = models.TextField()
     cover = models.ImageField(blank=True)
 
@@ -81,11 +81,6 @@ class Book(Timestamp):
 class BookAuthor(models.Model):
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
     author = models.ForeignKey(Author, on_delete=models.CASCADE)
-    order = models.CharField(blank=True, max_length=25)
-
-    def save(self, *args, **kwargs):
-        book = self.book
-        self.order = book.authors.all()[0]
-        super(BookAuthor, self).save(*args, **kwargs)
+    order = models.IntegerField()
 
 
