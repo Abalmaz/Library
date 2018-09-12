@@ -4,7 +4,6 @@
 1. Install requremints:
   pip install -r requirements.txt
 2. Create DB:
-  * python manage.py makemigrations
   * python manage.py migrate
 3. Load data to DB:
   * python manage.py loaddata country.json
