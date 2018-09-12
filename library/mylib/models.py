@@ -1,4 +1,6 @@
 from django.db import models
+from django.contrib.contenttypes.fields import GenericRelation
+from star_ratings.models import Rating
 
 # Create your models here.
 
@@ -73,6 +75,7 @@ class Book(Timestamp):
     genre = models.ManyToManyField(Genre)
     description = models.TextField()
     cover = models.ImageField(blank=True, upload_to='book_cover/')
+    ratings = GenericRelation(Rating, related_query_name='books')
 
     def __str__(self):
         return self.title

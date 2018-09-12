@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'mylib',
+    'star_ratings',
 ]
 
 MIDDLEWARE = [
@@ -126,3 +127,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'mylib/media/')
 FIXTURE_DIRS = [
     os.path.join(BASE_DIR, '/mylib/fixtures/'),
 ]
+
+STAR_RATINGS_RANGE = 10
+STAR_RATINGS_ANONYMOUS = True
