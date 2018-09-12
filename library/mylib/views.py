@@ -1,10 +1,7 @@
-from django.shortcuts import render
 from django.db.models import Min
 from django.views.generic import DetailView, ListView
 
 from .models import Book, Author
-
-# Create your views here.
 
 
 class AuthorInfoView(DetailView):
@@ -18,6 +15,7 @@ class BookInfoView(DetailView):
 
 
 class BookListView(ListView):
+    context_object_name = 'books'
     model = Book
     paginate_by = 5
 
@@ -25,7 +23,7 @@ class BookListView(ListView):
         return self.request.GET.get('order_by', 'pk')
 
     def get_context_data(self, *args, **kwargs):
-        context = super(BookListView, self).get_context_data(*args, **kwargs)
+        context = super().get_context_data(*args, **kwargs)
         context['order_by'] = self.get_ordering()
         return context
 

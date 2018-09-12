@@ -2,8 +2,9 @@
 
 {% block body %}
     <h3>{{ book.title }}</h3>
+    <img src="{{ book.cover.url }}">
     <p>Authors:
-        <ul>{% for author in book.authors.all %}<li>{{ author.pseudonym }}</li>{% endfor %}</ul>
+        <ul>{% for author in book.authors.all %}<li>{{ author.full_name }}</li>{% endfor %}</ul>
     <p>Genre:
         <ul>{% for g in book.genre.all %}<li>{{ g }}</li>{% endfor %}</ul>
     </p>

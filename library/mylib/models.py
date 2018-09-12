@@ -43,14 +43,14 @@ class Author(Timestamp):
     biography = models.TextField()
     country = models.ForeignKey(Country, on_delete=models.CASCADE)
     genre = models.ManyToManyField(Genre)
-    photo = models.ImageField(blank=True)
+    photo = models.ImageField(blank=True, upload_to='author_photo/')
 
     def __str__(self):
         return self.second_name
 
     @property
     def full_name(self):
-        return '%s %s %s' % (self.first_name, self.middle_name, self.second_name)
+        return '%s %s %s' % (self.second_name, self.first_name, self.middle_name)
 
     def short_name(self):
         if self.pseudonym:
@@ -72,7 +72,7 @@ class Book(Timestamp):
     authors = models.ManyToManyField(Author, through='BookAuthor')
     genre = models.ManyToManyField(Genre)
     description = models.TextField()
-    cover = models.ImageField(blank=True)
+    cover = models.ImageField(blank=True, upload_to='book_cover/')
 
     def __str__(self):
         return self.title
