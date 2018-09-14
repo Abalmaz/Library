@@ -1,4 +1,5 @@
 from django.db.models import Min
+from .filter import BookFilter
 from django.views.generic import DetailView, ListView
 
 from .models import Book, Author
@@ -25,12 +26,17 @@ class BookListView(ListView):
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
         context['order_by'] = self.get_ordering()
+        filter = BookFilter(self.request.GET)
+        context['filter'] = filter
         return context
 
     def get_queryset(self):
         order = self.get_ordering()
-        if order == 'authors__second_name':
-            new_context = Book.objects.annotate(x=Min('bookauthor__order')).order_by('x', order)
+
+        if order == 'authors':
+            queryset = Book.objects.annotate(x=Min('bookauthor__order')).order_by('x', 'authors__second_name')
         else:
-            new_context = Book.objects.order_by(order)
-        return new_context
+            queryset = Book.objects.order_by(order)
+
+        return BookFilter(self.request.GET, queryset=queryset).qs
+        # return queryset
