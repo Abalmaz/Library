@@ -11,6 +11,15 @@ class BookFilter(django_filters.FilterSet):
     publishing = django_filters.ModelMultipleChoiceFilter(queryset=PublishingHouse.objects.all(),
                                                           widget=forms.CheckboxSelectMultiple)
 
+    o = django_filters.OrderingFilter(
+        fields=(
+            ('title', 'title'),
+            ('year', 'year'),
+            ('authors', 'authors')
+        )
+    )
+
+
     class Meta:
         model = Book
         fields = ['title', 'year', 'authors', 'publishing']

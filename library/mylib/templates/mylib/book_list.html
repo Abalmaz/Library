@@ -1,6 +1,6 @@
 {% extends 'mylib/base.html' %}
 {% load ratings %}
-
+{% load get_filter_param %}
 {% block body %}
 <br>
 
@@ -27,15 +27,16 @@
      Search
   </button>
 </form>
+
 <br>
 <table class="table">
     <thead class="table table-hover">
       <tr>
           <th>Book title
-              <a href="?order_by=title" class="fa fa-fw fa-sort-up"></a>
+              <a href="?order_by=title&{% get_param %}" class="fa fa-fw fa-sort-up"></a>
           </th>
-          <th>Year<a href="?order_by=year" class="fa fa-fw  fa-sort-up"></a></th>
-          <th>Authors<a href="?order_by=authors" class="fa fa-fw  fa-sort-up"></a></th>
+          <th>Year<a href="?order_by=year&{% get_param %}" class="fa fa-fw  fa-sort-up"></a></th>
+          <th>Authors<a href="?order_by=authors&{% get_param %}" class="fa fa-fw  fa-sort-up"></a></th>
           <th>Genres</th>
           <th>Rating</th>
       </tr>

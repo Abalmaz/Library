@@ -26,8 +26,9 @@ class BookListView(ListView):
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
         context['order_by'] = self.get_ordering()
-        filter = BookFilter(self.request.GET)
+        filter = BookFilter()
         context['filter'] = filter
+
         return context
 
     def get_queryset(self):
