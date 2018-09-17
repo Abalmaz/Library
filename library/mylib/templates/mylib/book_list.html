@@ -1,6 +1,5 @@
 {% extends 'mylib/base.html' %}
 {% load ratings %}
-{% load get_filter_param %}
 {% block body %}
 <br>
 
@@ -22,6 +21,10 @@
       {{ filter.form.publishing.label_tag }}
       {{ filter.form.publishing }}
     </div>
+    <div class="form-group">
+      {{ filter.form.o.label_tag }}
+      {{ filter.form.o }}
+    </div>
   </div>
   <button type="submit" class="btn btn-primary">
      Search
@@ -32,11 +35,9 @@
 <table class="table">
     <thead class="table table-hover">
       <tr>
-          <th>Book title
-              <a href="?order_by=title&{% get_param %}" class="fa fa-fw fa-sort-up"></a>
-          </th>
-          <th>Year<a href="?order_by=year&{% get_param %}" class="fa fa-fw  fa-sort-up"></a></th>
-          <th>Authors<a href="?order_by=authors&{% get_param %}" class="fa fa-fw  fa-sort-up"></a></th>
+          <th>Book title</th>
+          <th>Year</th>
+          <th>Authors</th>
           <th>Genres</th>
           <th>Rating</th>
       </tr>
@@ -53,12 +54,16 @@
             <td>
                 <ul class="list-unstyled">
                     {% for author in book.authors.all %}
-                    <li><a href="{% url 'author_info' author.pk %}">{{ author.short_name }}</a></li>
+                        <li><a href="{% url 'author_info' author.pk %}">{{ author.short_name }}</a></li>
                     {% endfor %}
                 </ul>
             </td>
             <td>
-                <ul class="list-unstyled">{% for g in book.genre.all|slice:"0:3" %}<li>{{ g.name }}</li>{% endfor %}</ul>
+                <ul class="list-unstyled">
+                    {% for g in book.genre.all|slice:"0:3" %}
+                        <li>{{ g.name }}</li>
+                    {% endfor %}
+                </ul>
             </td>
             <td>
                 {% ratings book %}

@@ -1,16 +1,7 @@
 from django.db import models
+from .abs_models import Timestamp
 from django.contrib.contenttypes.fields import GenericRelation
 from star_ratings.models import Rating
-
-# Create your models here.
-
-
-class Timestamp(models.Model):
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    class Meta:
-        abstract = True
 
 
 class Country(models.Model):
@@ -52,15 +43,20 @@ class Author(Timestamp):
 
     @property
     def full_name(self):
-        return '%s %s %s' % (self.second_name, self.first_name, self.middle_name)
+        return '%s %s %s' % (self.second_name,
+                             self.first_name,
+                             self.middle_name)
 
     def short_name(self):
         if self.pseudonym:
             return '{}'.format(self.pseudonym)
         elif self.middle_name:
-            return '{} {}. {}.'.format(self.second_name, self.first_name[0].capitalize(), self.middle_name[0].capitalize())
+            return '{} {}. {}.'.format(self.second_name,
+                                       self.first_name[0].capitalize(),
+                                       self.middle_name[0].capitalize())
         else:
-            return '{} {}.'.format(self.second_name, self.first_name[0].capitalize())
+            return '{} {}.'.format(self.second_name,
+                                   self.first_name[0].capitalize())
 
     class Meta:
         ordering = ('second_name',)
@@ -88,4 +84,3 @@ class BookAuthor(models.Model):
 
     class Meta:
         auto_created = True
-
