@@ -1,3 +1,4 @@
+#!/bin/bash
 ./manage.py loaddata country.json
 ./python manage.py loaddata genre.json
 ./python manage.py loaddata PublishingHouse.json
