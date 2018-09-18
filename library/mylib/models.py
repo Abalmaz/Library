@@ -1,3 +1,4 @@
+from django.contrib.auth.models import AbstractUser
 from django.db import models
 from .abs_models import Timestamp
 from django.contrib.contenttypes.fields import GenericRelation
@@ -84,3 +85,15 @@ class BookAuthor(models.Model):
 
     class Meta:
         auto_created = True
+
+
+class User(AbstractUser):
+    is_reader = models.BooleanField(default=False)
+    is_publisher = models.BooleanField(default=False)
+    middle_name = models.CharField(max_length=25, blank=True)
+    birth_date = models.DateField(null=True, blank=True)
+
+
+class Publisher(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
+    publishing_house = models.ForeignKey(PublishingHouse, on_delete=models.CASCADE)
