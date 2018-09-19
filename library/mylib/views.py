@@ -1,3 +1,4 @@
+from django.shortcuts import render
 from .filters import BookFilter
 from django.views.generic import DetailView, ListView
 
@@ -28,3 +29,7 @@ class BookListView(ListView):
 
     def get_queryset(self):
         return BookFilter(self.request.GET, queryset=Book.objects.all()).qs
+
+
+def signup(request):
+    return render(request, 'registration/signup.html')

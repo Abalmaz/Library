@@ -1,7 +1,7 @@
 {% extends 'mylib/base.html' %}
 {% load ratings %}
 
-{% block body %}
+{% block content %}
     <h3>{{ book.title }}</h3>
     <img src="{{ book.cover.url }}">
     {% ratings book %}
