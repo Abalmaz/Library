@@ -136,3 +136,8 @@ STAR_RATINGS_RANGE = 10
 STAR_RATINGS_ANONYMOUS = True
 
 LOGIN_REDIRECT_URL = 'book_list'
+LOGOUT_REDIRECT_URL = 'book_list'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'localhost'
+EMAIL_PORT = '1025'
