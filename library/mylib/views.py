@@ -1,8 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import redirect
+from django.contrib.auth import login
 from .filters import BookFilter
-from django.views.generic import DetailView, ListView
+from .forms import SignUpForm
+from django.views.generic import DetailView, ListView, CreateView
 
-from .models import Book, Author
+from .models import Book, Author, User
 
 
 class AuthorInfoView(DetailView):
@@ -31,5 +33,12 @@ class BookListView(ListView):
         return BookFilter(self.request.GET, queryset=Book.objects.all()).qs
 
 
-def signup(request):
-    return render(request, 'registration/signup.html')
+class SignUpView(CreateView):
+    model = User
+    form_class = SignUpForm
+    template_name = 'registration/signup.html'
+
+    def form_valid(self, form):
+        user = form.save()
+        login(self.request, user)
+        return redirect('book_list')
