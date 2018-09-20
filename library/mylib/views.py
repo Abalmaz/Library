@@ -42,3 +42,4 @@ class SignUpView(CreateView):
         user = form.save()
         login(self.request, user)
         return redirect('book_list')
+

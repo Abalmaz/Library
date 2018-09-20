@@ -3,6 +3,9 @@ from django.db import models
 from .abs_models import Timestamp
 from django.contrib.contenttypes.fields import GenericRelation
 from star_ratings.models import Rating
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
+import uuid
 
 
 class Country(models.Model):
@@ -97,3 +100,23 @@ class User(AbstractUser):
 class Publisher(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     publishing_house = models.ForeignKey(PublishingHouse, on_delete=models.CASCADE)
+
+
+class Invitation(models.Model):
+    username = models.CharField(max_length=30)
+    auth_token = models.UUIDField(max_length=36, default=uuid.uuid4, editable=False, unique=True)
+    email = models.CharField(max_length=30)
+    invited_date = models.DateField(auto_now_add=True)
+
+    def send(self, request=None):
+        subject = 'You have been invited to signup to Library'
+        message = render_to_string(
+            'registration/invitation_email.txt',
+            {
+                'protocol': 'http',
+                'domain': 'localhost',
+                'auth_token': self.auth_token,
+            }
+        )
+
+        send_mail(subject, message, 'webmaster@localhost', [self.email])
