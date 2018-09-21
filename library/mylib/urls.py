@@ -4,8 +4,8 @@ from . import views
 
 urlpatterns = [
     path('', views.BookListView.as_view(), name='book_list'),
-    path('books/<int:pk>/', views.BookInfoView.as_view(), name='book_info'),
-    path('authors/<int:pk>/', views.AuthorInfoView.as_view(),
+    path('books/<int:pk>/', views.BookDetailView.as_view(), name='book_info'),
+    path('authors/<int:pk>/', views.AuthorDetailView.as_view(),
          name='author_info'),
     path('signup/', views.SignUpView.as_view(), name='signup'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
@@ -34,4 +34,7 @@ urlpatterns = [
         template_name='registration/password_change_done.html'),
         name='password_change_done'),
     path('invitation/<uuid:token>', views.invitation, name='invitation'),
+    path('profile/', views.UserUpdateView.as_view(), name='profile'),
+    path('profile/books/', views.BookCreateView.as_view(), name='book_add'),
+    path('profile/books/<int:pk>/delete/', views.BookDeleteView.as_view(), name='book_delete'),
 ]

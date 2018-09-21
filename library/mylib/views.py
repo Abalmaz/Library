@@ -1,19 +1,21 @@
 from django.contrib.auth.forms import SetPasswordForm
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.urls import reverse_lazy
 from django.shortcuts import redirect, get_object_or_404, render
 from django.contrib.auth import login
 from .filters import BookFilter
 from .forms import SignUpForm
-from django.views.generic import DetailView, ListView, CreateView
+from django.views.generic import DetailView, ListView, CreateView, UpdateView, DeleteView
 
 from .models import Book, Author, User, Invitation
 
 
-class AuthorInfoView(DetailView):
+class AuthorDetailView(DetailView):
     context_object_name = 'author'
     queryset = Author.objects.all()
 
 
-class BookInfoView(DetailView):
+class BookDetailView(DetailView):
     context_object_name = 'book'
     queryset = Book.objects.all()
 
@@ -34,6 +36,17 @@ class BookListView(ListView):
         return BookFilter(self.request.GET, queryset=Book.objects.all()).qs
 
 
+class BookCreateView(CreateView):
+    model = Book
+    template_name = 'mylib/add_book.html'
+    fields = ('title', 'authors', 'genre', 'year', 'number_page', 'description', 'cover')
+
+
+class BookDeleteView(DeleteView):
+    model = Book
+    success_url = reverse_lazy('profile')
+
+
 class SignUpView(CreateView):
     model = User
     form_class = SignUpForm
@@ -43,6 +56,23 @@ class SignUpView(CreateView):
         user = form.save()
         login(self.request, user)
         return redirect('book_list')
+
+
+class UserUpdateView(LoginRequiredMixin, UpdateView):
+    login_url = 'login'
+    model = User
+    fields = ('first_name', 'middle_name', 'last_name', 'birth_date', 'email')
+    template_name = 'mylib/profile.html'
+    success_url = reverse_lazy('profile')
+
+    def get_object(self):
+        return self.request.user
+
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        email_field = form.fields.get('email')
+        email_field.disabled = True
+        return form
 
 
 def invitation(request, token):
@@ -61,3 +91,4 @@ def invitation(request, token):
         form = SetPasswordForm(user)
 
     return render(request, 'registration/invitation.html', {'form': form})
+

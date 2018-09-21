@@ -1,0 +1,24 @@
+{% extends 'mylib/base.html' %}
+
+{% block content %}
+  <div class="row">
+    <div class="col-lg-6 col-md-8 col-sm-10">
+      <form method="post" novalidate>
+        {% csrf_token %}
+          {{ form.as_p }}
+        <button type="submit" class="btn btn-success">Save changes</button>
+      </form>
+    </div>
+  </div>
+<div>
+    {% if object.is_publisher %}
+    <br>
+    <p>Books:
+    <ul>
+        {% for book in object.publisher.publishing_house.book_set.all %}
+        <li>{{ book.title }} <a href="#">Delete</a></li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+</div>
+{% endblock %}
