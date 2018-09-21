@@ -1,10 +1,11 @@
-from django.shortcuts import redirect
+from django.contrib.auth.forms import SetPasswordForm
+from django.shortcuts import redirect, get_object_or_404, render
 from django.contrib.auth import login
 from .filters import BookFilter
 from .forms import SignUpForm
 from django.views.generic import DetailView, ListView, CreateView
 
-from .models import Book, Author, User
+from .models import Book, Author, User, Invitation
 
 
 class AuthorInfoView(DetailView):
@@ -43,3 +44,20 @@ class SignUpView(CreateView):
         login(self.request, user)
         return redirect('book_list')
 
+
+def invitation(request, token):
+    invite = get_object_or_404(Invitation, auth_token=token)
+    if not invite.is_invitation():
+        return render(request, 'registration/invitation_error.html')
+    user = invite.user
+
+    if request.method == 'POST':
+        form = SetPasswordForm(user, request.POST)
+        if form.is_valid():
+            form.save()
+            login(request, user)
+            return redirect('book_list')
+    else:
+        form = SetPasswordForm(user)
+
+    return render(request, 'registration/invitation.html', {'form': form})

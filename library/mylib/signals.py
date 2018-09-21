@@ -7,10 +7,5 @@ from django.dispatch import receiver
 def create_auth_token(sender, instance=None, created=False, **kwargs):
     if created:
         if instance.is_publisher:
-            Invitation.objects.create(username=instance.username, email=instance.email)
-
-
-@receiver(post_save, sender=Invitation)
-def send_mail(sender, instance=None, created=False, **kwargs):
-    if created:
-        instance.send()
+            inv = Invitation.objects.create(user=instance)
+            inv.send()

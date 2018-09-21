@@ -8,4 +8,5 @@ urlpatterns = [
     path('authors/<int:pk>/', views.AuthorInfoView.as_view(),
          name='author_info'),
     path('signup/', views.SignUpView.as_view(), name='signup'),
+    path('invitation/<uuid:token>', views.invitation, name='invitation'),
 ]

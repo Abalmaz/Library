@@ -1,5 +1,9 @@
 from django.contrib.auth.models import AbstractUser
+from django.contrib.sites.shortcuts import get_current_site
 from django.db import models
+from django.urls import reverse
+from django.conf import settings
+from django.utils import timezone
 from .abs_models import Timestamp
 from django.contrib.contenttypes.fields import GenericRelation
 from star_ratings.models import Rating
@@ -86,9 +90,6 @@ class BookAuthor(models.Model):
     author = models.ForeignKey(Author, on_delete=models.CASCADE)
     order = models.IntegerField(default=0)
 
-    class Meta:
-        auto_created = True
-
 
 class User(AbstractUser):
     is_reader = models.BooleanField(default=False)
@@ -102,21 +103,24 @@ class Publisher(models.Model):
     publishing_house = models.ForeignKey(PublishingHouse, on_delete=models.CASCADE)
 
 
-class Invitation(models.Model):
-    username = models.CharField(max_length=30)
+class Invitation(Timestamp):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     auth_token = models.UUIDField(max_length=36, default=uuid.uuid4, editable=False, unique=True)
-    email = models.CharField(max_length=30)
-    invited_date = models.DateField(auto_now_add=True)
 
-    def send(self, request=None):
+    def send(self):
         subject = 'You have been invited to signup to Library'
-        message = render_to_string(
-            'registration/invitation_email.txt',
-            {
-                'protocol': 'http',
-                'domain': 'localhost',
-                'auth_token': self.auth_token,
-            }
-        )
+        context = dict(url=''.join([get_current_site(None).domain, self.get_absolute_url()]))
+        message = render_to_string('registration/invitation_email.html', context)
+        mail_from = settings.EMAIL_FROM
+        mail_to = self.user.email
+        send_mail(subject, message, mail_from, [mail_to])
 
-        send_mail(subject, message, 'webmaster@localhost', [self.email])
+    def get_absolute_url(self):
+        return reverse('invitation', kwargs={'token': self.auth_token})
+
+    def is_invitation(self):
+        now = timezone.now()
+        if (now-self.created_at).days >= settings.INVITATIONS_LIFETIME:
+            return False
+        return True
+

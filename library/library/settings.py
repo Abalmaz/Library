@@ -37,10 +37,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
     'mylib',
     'star_ratings',
     'django_filters',
 ]
+
+SITE_ID = 1
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -141,3 +144,7 @@ LOGOUT_REDIRECT_URL = 'book_list'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'localhost'
 EMAIL_PORT = '1025'
+EMAIL_FROM = 'library.admin@localhost'
+
+INVITATIONS_LIFETIME = 1
+
