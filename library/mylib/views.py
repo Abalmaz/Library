@@ -5,6 +5,8 @@ from django.urls import reverse_lazy
 from django.shortcuts import redirect, get_object_or_404, render
 from django.contrib.auth import login
 
+from mptt.forms import MoveNodeForm
+
 from .mixins import PublisherRequiredMixin, OwnerRequiredMixin
 from .filters import BookFilter
 from .forms import SignUpForm
@@ -22,6 +24,10 @@ class BookDetailView(DetailView):
     context_object_name = 'book'
     queryset = Book.objects.all()
 
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        ctx['comments'] = self.get_object().comments.all()
+        return ctx
 
 class BookListView(ListView):
     context_object_name = 'books'

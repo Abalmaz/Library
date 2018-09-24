@@ -132,7 +132,7 @@ class Invitation(Timestamp):
 
 class Comment(Timestamp, MPTTModel):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
-    book = models.ForeignKey(Book, on_delete=models.CASCADE)
+    book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name='comments')
     text = models.TextField()
     parent = TreeForeignKey('self', on_delete=models.CASCADE, null=True, blank=True,
                             related_name='children')

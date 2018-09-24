@@ -1,5 +1,6 @@
 {% extends 'mylib/base.html' %}
 {% load ratings %}
+{% load mptt_tags %}
 
 {% block content %}
     <h3>{{ book.title }}</h3>
@@ -14,5 +15,22 @@
     <p>Count of pages: {{ book.number_page }}</p>
     <p>Publisher: {{ book.publishing }}</p>
     <p>Description: {{ book.description }}</p>
+
+
+    <ul class="root">
+        {% recursetree comments %}
+            <li>
+
+                {{ node.author }} writes(at {{node.created_at}}):
+                {{ node.text }}
+                {% if not node.is_leaf_node %}
+                    <ul class="children">
+                        {{ children }}
+                    </ul>
+                {% endif %}
+            </li>
+        {% endrecursetree %}
+    </ul>
+
 
 {% endblock %}
