@@ -89,7 +89,7 @@ class UserUpdateView(LoginRequiredMixin, UpdateView):
 
 def invitation(request, token):
     invite = get_object_or_404(Invitation, auth_token=token)
-    if not invite.is_invitation():
+    if not invite.is_valid():
         return render(request, 'registration/invitation_error.html')
     user = invite.user
 

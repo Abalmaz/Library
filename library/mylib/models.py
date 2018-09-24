@@ -9,6 +9,7 @@ from django.contrib.contenttypes.fields import GenericRelation
 from star_ratings.models import Rating
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
+from mptt.models import MPTTModel, TreeForeignKey
 import uuid
 
 
@@ -102,7 +103,8 @@ class User(AbstractUser):
 
 
 class Publisher(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True, related_name='publisher_profile')
+    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True,
+                                related_name='publisher_profile')
     publishing_house = models.ForeignKey(PublishingHouse, on_delete=models.CASCADE, blank=True)
 
 
@@ -121,9 +123,17 @@ class Invitation(Timestamp):
     def get_absolute_url(self):
         return reverse('invitation', kwargs={'token': self.auth_token})
 
-    def is_invitation(self):
+    def is_valid(self):
         now = timezone.now()
         if (now-self.created_at).days >= settings.INVITATIONS_LIFETIME:
             return False
         return True
+
+
+class Comment(Timestamp, MPTTModel):
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    book = models.ForeignKey(Book, on_delete=models.CASCADE)
+    text = models.TextField()
+    parent = TreeForeignKey('self', on_delete=models.CASCADE, null=True, blank=True,
+                            related_name='children')
 
