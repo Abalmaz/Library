@@ -90,6 +90,9 @@ class BookAuthor(models.Model):
     author = models.ForeignKey(Author, on_delete=models.CASCADE)
     order = models.IntegerField(default=0)
 
+    class Meta:
+        auto_created = True
+
 
 class User(AbstractUser):
     is_reader = models.BooleanField(default=False)
@@ -99,8 +102,8 @@ class User(AbstractUser):
 
 
 class Publisher(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
-    publishing_house = models.ForeignKey(PublishingHouse, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True, related_name='publisher_profile')
+    publishing_house = models.ForeignKey(PublishingHouse, on_delete=models.CASCADE, blank=True)
 
 
 class Invitation(Timestamp):
