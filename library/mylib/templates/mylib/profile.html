@@ -15,10 +15,11 @@
     <br>
     <p>Books:
     <ul>
-        {% for book in object.publisher.publishing_house.book_set.all %}
-        <li>{{ book.title }} <a href="#">Delete</a></li>
+        {% for book in object.publisher_profile.publishing_house.book_set.all %}
+        <li>{{ book.title }} <a href="{% url 'book_delete' pk=book.pk  %}">Delete</a></li>
         {% endfor %}
     </ul>
     {% endif %}
+    <a href="{% url 'book_add' %}">Add book</a>
 </div>
 {% endblock %}
