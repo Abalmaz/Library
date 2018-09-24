@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'mylib',
     'star_ratings',
     'django_filters',
+    'mptt',
 ]
 
 SITE_ID = 1
