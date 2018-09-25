@@ -1,7 +1,22 @@
-a {
-    color: black;
+ a {
+    font-weight: bold;
+}
+a:hover {
+    text-decoration: underline;
 }
 
-.comment {
-    margin: 20px 0px 20px 20px;
+#comments {
+    padding-left: 0px;
+}
+
+#comments li {
+    list-style-type: none;
+}
+
+.author {
+    font-size: 12px;
+}
+
+.text {
+    font-size: 14px;
 }

@@ -37,5 +37,4 @@ urlpatterns = [
     path('profile/', views.UserUpdateView.as_view(), name='profile'),
     path('profile/books/', views.BookCreateView.as_view(), name='book_add'),
     path('profile/books/<int:pk>/delete/', views.BookDeleteView.as_view(), name='book_delete'),
-    path('book/<pk>/comment/', views.add_comment, name='add_comment'),
 ]
