@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'star_ratings',
     'django_filters',
     'mptt',
+    'social_django',
 ]
 
 SITE_ID = 1

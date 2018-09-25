@@ -3,16 +3,14 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 
 from django.urls import reverse_lazy
 from django.shortcuts import redirect, get_object_or_404, render
-from django.contrib.auth import login
-
-from mptt.forms import MoveNodeForm
+from django.contrib.auth import login, get_user
 
 from .mixins import PublisherRequiredMixin, OwnerRequiredMixin
 from .filters import BookFilter
-from .forms import SignUpForm
+from .forms import SignUpForm, CommentForm
 from django.views.generic import DetailView, ListView, CreateView, UpdateView, DeleteView
 
-from .models import Book, Author, User, Invitation, PublishingHouse
+from .models import Book, Author, User, Invitation, PublishingHouse, Comment
 
 
 class AuthorDetailView(DetailView):
@@ -27,7 +25,20 @@ class BookDetailView(DetailView):
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
         ctx['comments'] = self.get_object().comments.all()
+        ctx['form'] = CommentForm()
         return ctx
+
+    def post(self, request, **kwargs):
+        form = CommentForm(request.POST)
+        book = self.get_object()
+        # parent = self.kwargs['parent']
+        if form.is_valid():
+            form.book = book
+            # form.parent = parent
+            form.author = get_user(request)
+            form.save()
+            return redirect('book_info')
+
 
 class BookListView(ListView):
     context_object_name = 'books'
@@ -110,3 +121,20 @@ def invitation(request, token):
 
     return render(request, 'registration/invitation.html', {'form': form})
 
+
+def add_comment(request, pk, parent=None):
+    book = get_object_or_404(Book, pk=pk)
+    if parent:
+        parent = get_object_or_404(Comment, pk=parent)
+    if request.method == "POST":
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.book = book
+            comment.parent = parent
+            comment.author = get_user(request)
+            comment.save()
+            return redirect('book_info', pk=book.pk)
+    else:
+        form = CommentForm()
+    return render(request, 'mylib/add_comment.html', {'form': form})

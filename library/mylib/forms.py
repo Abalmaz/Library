@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from .models import User
+from .models import User, Comment
 
 
 class SignUpForm(UserCreationForm):
@@ -36,3 +36,11 @@ class SignUpForm(UserCreationForm):
         user.birth_date = self.cleaned_data.get("birth_date")
         user.save()
         return user
+
+
+class CommentForm(forms.ModelForm):
+    parent = forms.CharField(widget=forms.HiddenInput(), required=False)
+
+    class Meta:
+        model = Comment
+        fields = ('text', 'parent', )

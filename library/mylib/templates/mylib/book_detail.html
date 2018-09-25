@@ -16,21 +16,31 @@
     <p>Publisher: {{ book.publishing }}</p>
     <p>Description: {{ book.description }}</p>
 
-
-    <ul class="root">
+    <hr>
+    <ul>
         {% recursetree comments %}
-            <li>
+            <div class="comment">
+                <li>
+                    <strong>{{ node.author }}</strong>
+                    <div class="date">{{ node.created_at }}</div>
+                    <p>{{ node.text|linebreaks }}</p>
 
-                {{ node.author }} writes(at {{node.created_at}}):
-                {{ node.text }}
-                {% if not node.is_leaf_node %}
-                    <ul class="children">
-                        {{ children }}
-                    </ul>
-                {% endif %}
-            </li>
+                    {% if not node.is_leaf_node %}
+                        <ul>
+                            {{ children }}
+                        </ul>
+                    {% endif %}
+                </li>
+            </div>
         {% endrecursetree %}
     </ul>
-
-
+    <div class="row">
+        <div class="col-lg-6 col-md-8 col-sm-10">
+          <form method="post">
+            {% csrf_token %}
+              {{ form.as_p }}
+            <button type="submit" class="btn btn-success">Comment</button>
+          </form>
+        </div>
+      </div>
 {% endblock %}
