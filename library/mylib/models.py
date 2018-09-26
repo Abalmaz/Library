@@ -96,7 +96,7 @@ class BookAuthor(models.Model):
 
 
 class User(AbstractUser):
-    is_reader = models.BooleanField(default=False)
+    is_reader = models.BooleanField(default=True)
     is_publisher = models.BooleanField(default=False)
     middle_name = models.CharField(max_length=25, blank=True)
     birth_date = models.DateField(null=True, blank=True)

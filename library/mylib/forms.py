@@ -42,7 +42,7 @@ class CommentForm(forms.ModelForm):
     parent = forms.CharField(widget=forms.HiddenInput(
                              attrs={'class': 'parent'}),
                              required=False)
-    text = forms.CharField(widget=forms.Textarea(attrs={'rows': '3'}))
+    text = forms.CharField(label="", widget=forms.Textarea(attrs={'rows': '3'}))
 
     class Meta:
         model = Comment
