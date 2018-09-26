@@ -19,7 +19,7 @@
         <li>{{ book.title }} <a href="{% url 'book_delete' pk=book.pk  %}">Delete</a></li>
         {% endfor %}
     </ul>
-    {% endif %}
     <a href="{% url 'book_add' %}">Add book</a>
+    {% endif %}
 </div>
 {% endblock %}

@@ -100,6 +100,9 @@ class User(AbstractUser):
     is_publisher = models.BooleanField(default=False)
     middle_name = models.CharField(max_length=25, blank=True)
     birth_date = models.DateField(null=True, blank=True)
+    email = models.EmailField(verbose_name='email address', unique=True, error_messages={
+                              'unique': "A user with that email already exists.",
+                              })
 
 
 class Publisher(models.Model):

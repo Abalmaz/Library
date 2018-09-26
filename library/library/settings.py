@@ -43,7 +43,12 @@ INSTALLED_APPS = [
     'star_ratings',
     'django_filters',
     'mptt',
-    'social_django',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.facebook',
+    'allauth.socialaccount.providers.google',
+
 ]
 
 SITE_ID = 1
@@ -56,7 +61,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'social_django.middleware.SocialAuthExceptionMiddleware',
+
 ]
 
 ROOT_URLCONF = 'library.urls'
@@ -72,8 +77,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'social_django.context_processors.backends',
-                'social_django.context_processors.login_redirect',
+
             ],
         },
     },
@@ -160,15 +164,8 @@ INVITATIONS_LIFETIME = 1
 
 # settings for social authentication
 AUTHENTICATION_BACKENDS = (
-    'social_core.backends.facebook.FacebookOAuth2',
-
-    'social_core.backends.open_id.OpenIdAuth',
-    'social_core.backends.google.GoogleOpenId',
-    'social_core.backends.google.GoogleOAuth2',
-
-    # 'social_core.backends.github.GithubOAuth2',
-    # 'social_core.backends.twitter.TwitterOAuth',
     'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
 
 )
 
@@ -178,12 +175,6 @@ SOCIAL_AUTH_FACEBOOK_SECRET = '8600217da4c73bbfb6ed80698aba3852'
 
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '842658107716-8mv0ktcr3eg82op2s3027kra39p4e6gl.apps.googleusercontent.com'
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'o0UzYvc9rjy6xzFog6m1uo1q'
-
-# SOCIAL_AUTH_GITHUB_KEY = 'f1f542b44193dbb288a1'
-# SOCIAL_AUTH_GITHUB_SECRET = 'adae8be5c8b8470933788f7676078c630e74fca3'
-#
-# SOCIAL_AUTH_TWITTER_KEY = 'rpm07gNJSRUFUN8ZP5ZNjvtvf'
-# SOCIAL_AUTH_TWITTER_SECRET = '1UUAV82jNlRnmzhm9GBhe8qeAsqUrVT9Fmq3Nat0FsDw6UTfXL'
 
 # Celery settings
 
