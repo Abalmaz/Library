@@ -68,7 +68,7 @@ class BookCreateView(PublisherRequiredMixin, CreateView):
 
     def form_valid(self, form):
         obj = form.save(commit=False)
-        obj.publishing = PublishingHouse.objects.get(pk=self.request.user.publisher_profile.pk)
+        obj.publishing = self.request.user.publisher_profile.publishing_house
         obj.save()
         return super().form_valid(form)
 
