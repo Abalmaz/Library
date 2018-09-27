@@ -2,15 +2,11 @@
 ## Start project
 
 1. Install requremints:
-  pip install -r requirements.txt
-2. Create DB:
-  * python manage.py makemigrations
+  * pip install -r requirements.txt  
+2. Change directory
+  * cd library  
+3. Create DB:
   * python manage.py migrate
-3. Load data to DB:
-  * python manage.py loaddata country.json
-  * python manage.py loaddata genre.json
-  * python manage.py loaddata PublishingHouse.json
-  * python manage.py loaddata author.json
-  * python manage.py loaddata book.json
-  
- 
+4. Load data to DB:
+  * load_db.sh
+
