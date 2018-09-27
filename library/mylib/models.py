@@ -85,6 +85,9 @@ class Book(Timestamp):
     def __str__(self):
         return self.title
 
+    def get_absolute_url(self):
+        return reverse('book_info', kwargs={'pk': self.pk})
+
 
 class BookAuthor(models.Model):
     book = models.ForeignKey(Book, on_delete=models.CASCADE)

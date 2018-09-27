@@ -13,6 +13,9 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+from celery.schedules import crontab
+
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
@@ -143,6 +146,10 @@ FIXTURE_DIRS = [
     os.path.join(BASE_DIR, '/mylib/fixtures/'),
 ]
 
+# TEMPLATE_DIRS = (
+#     os.path.join(BASE_DIR, 'mylib/templates/'),
+# )
+
 AUTH_USER_MODEL = 'mylib.User'
 
 
@@ -201,3 +208,16 @@ SOCIALACCOUNT_PROVIDERS = {
 # Celery settings
 
 CELERY_BROKER_URL = 'amqp://localhost'
+
+CELERY_BEAT_SCHEDULE = {
+    # Executes every Friday morning at 10:30 a.m.
+    'add-every-friday-morning': {
+        'task': '.mylib.tasks.send_new_book',
+        'schedule': crontab(hour=10, minute=30, day_of_week=5),
+    },
+    # Executes every minutes
+    'add-avery-minutes': {
+        'task': 'mylib.tasks.send_new_book',
+        'schedule': crontab(minute="*/1"),
+    }
+}

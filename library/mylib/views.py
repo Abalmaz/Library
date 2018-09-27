@@ -10,7 +10,7 @@ from .filters import BookFilter
 from .forms import SignUpForm, CommentForm
 from django.views.generic import DetailView, ListView, CreateView, UpdateView, DeleteView
 
-from .models import Book, Author, User, Invitation, PublishingHouse, Comment
+from .models import Book, Author, User, Invitation, Comment
 
 
 class AuthorDetailView(DetailView):
