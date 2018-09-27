@@ -93,7 +93,7 @@ class SignUpView(CreateView):
 class UserUpdateView(LoginRequiredMixin, UpdateView):
     login_url = 'login'
     model = User
-    fields = ('first_name', 'middle_name', 'last_name', 'birth_date', 'email')
+    fields = ('first_name', 'middle_name', 'last_name', 'birth_date', 'email', 'is_subscription')
     template_name = 'mylib/profile.html'
     success_url = reverse_lazy('profile')
 

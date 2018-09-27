@@ -1,3 +1,4 @@
+from .models import User, Book
 from celery import shared_task
 
 
