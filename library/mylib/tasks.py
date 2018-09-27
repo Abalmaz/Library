@@ -4,7 +4,7 @@ from django.template.loader import render_to_string
 from django.utils import timezone
 from datetime import timedelta
 from .models import User, Book
-from django.core.mail import send_mail, EmailMessage
+from django.core.mail import send_mail
 from celery import shared_task
 
 
@@ -12,17 +12,23 @@ from celery import shared_task
 def send_new_book():
     context = {}
     last_week = timezone.now() - timedelta(days=7)
-    new_books = Book.objects.filter(created_at__gte=last_week).order_by('-created_at')[:5]
-    books = list()
-    for book in new_books:
-        books.append(dict(title=book.title, url=''.join([get_current_site(None).domain, book.get_absolute_url()])))
-    context['books'] = books
-    subject = 'New book'
-    message = render_to_string('mylib/mail.html', context)
-    mail_from = settings.EMAIL_FROM
-    users_emails = User.objects.filter(is_subscription=True).values_list('email', flat=True)
-    # if users_emails:
-    #     msg = EmailMessage(subject, message, mail_from, users_emails)
-    #     msg.content_subtype = "html"
-    #     msg.send()
-    send_mail(message=message, html_message=message, recipient_list=users_emails, from_email=mail_from, subject=subject)
+    new_books = Book.objects.filter(
+        created_at__gte=last_week).order_by('-created_at')[:5]
+    if new_books:
+        books = list()
+        for book in new_books:
+            books.append(dict(title=book.title,
+                              url=''.join([get_current_site(None).domain,
+                                           book.get_absolute_url()])))
+        context['books'] = books
+        subject = 'New book'
+        message = render_to_string('mylib/mail.html', context)
+        mail_from = settings.EMAIL_FROM
+        users_emails = User.objects.filter(is_subscription=True).values_list(
+            'email', flat=True)
+        if users_emails:
+            send_mail(message=message,
+                      html_message=message,
+                      recipient_list=users_emails,
+                      from_email=mail_from,
+                      subject=subject)

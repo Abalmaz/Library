@@ -8,7 +8,8 @@ from django.contrib.auth import login
 from .mixins import PublisherRequiredMixin, OwnerRequiredMixin
 from .filters import BookFilter
 from .forms import SignUpForm, CommentForm
-from django.views.generic import DetailView, ListView, CreateView, UpdateView, DeleteView
+from django.views.generic import DetailView, ListView, CreateView, \
+    UpdateView, DeleteView
 
 from .models import Book, Author, User, Invitation, Comment
 
@@ -63,7 +64,9 @@ class BookCreateView(PublisherRequiredMixin, CreateView):
     login_url = 'login'
     model = Book
     template_name = 'mylib/add_book.html'
-    fields = ('title', 'authors', 'genre', 'year', 'number_page', 'description', 'cover')
+    fields = ('title', 'authors', 'genre',
+              'year', 'number_page',
+              'description', 'cover')
     success_url = reverse_lazy('profile')
 
     def form_valid(self, form):
@@ -93,7 +96,9 @@ class SignUpView(CreateView):
 class UserUpdateView(LoginRequiredMixin, UpdateView):
     login_url = 'login'
     model = User
-    fields = ('first_name', 'middle_name', 'last_name', 'birth_date', 'email', 'is_subscription')
+    fields = ('first_name', 'middle_name',
+              'last_name', 'birth_date',
+              'email', 'is_subscription')
     template_name = 'mylib/profile.html'
     success_url = reverse_lazy('profile')
 

@@ -101,31 +101,47 @@ class BookAuthor(models.Model):
 class User(AbstractUser):
     is_reader = models.BooleanField(default=True)
     is_publisher = models.BooleanField(default=False)
-    is_subscription = models.BooleanField(verbose_name='send email', default=False)
+    is_subscription = models.BooleanField(verbose_name='send email',
+                                          default=False)
     middle_name = models.CharField(max_length=25, blank=True)
     birth_date = models.DateField(null=True, blank=True)
-    email = models.EmailField(verbose_name='email address', unique=True, error_messages={
-                              'unique': "A user with that email already exists.",
+    email = models.EmailField(verbose_name='email address',
+                              unique=True,
+                              error_messages={
+                              'unique': "A user with that email already exists",
                               })
 
 
 class Publisher(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True,
+    user = models.OneToOneField(User, on_delete=models.CASCADE,
+                                primary_key=True,
                                 related_name='publisher_profile')
-    publishing_house = models.ForeignKey(PublishingHouse, on_delete=models.CASCADE, blank=True)
+    publishing_house = models.ForeignKey(PublishingHouse,
+                                         on_delete=models.CASCADE,
+                                         blank=True,
+                                         related_name='publishing')
 
 
 class Invitation(Timestamp):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    auth_token = models.UUIDField(max_length=36, default=uuid.uuid4, editable=False, unique=True)
+    auth_token = models.UUIDField(max_length=36,
+                                  default=uuid.uuid4,
+                                  editable=False,
+                                  unique=True)
 
     def send(self):
         subject = 'You have been invited to signup to Library'
-        context = dict(url=''.join([get_current_site(None).domain, self.get_absolute_url()]))
-        message = render_to_string('registration/invitation_email.html', context)
+        context = dict(url=''.join([get_current_site(None).domain,
+                                    self.get_absolute_url()]))
+        message = render_to_string('registration/invitation_email.html',
+                                   context)
         mail_from = settings.EMAIL_FROM
         mail_to = self.user.email
-        send_mail(subject, message, mail_from, [mail_to])
+        send_mail(message=message,
+                  html_message=message,
+                  recipient_list=mail_to,
+                  from_email=mail_from,
+                  subject=subject)
 
     def get_absolute_url(self):
         return reverse('invitation', kwargs={'token': self.auth_token})
@@ -139,8 +155,10 @@ class Invitation(Timestamp):
 
 class Comment(Timestamp, MPTTModel):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
-    book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name='comments')
+    book = models.ForeignKey(Book, on_delete=models.CASCADE,
+                             related_name='comments')
     text = models.TextField()
-    parent = TreeForeignKey('self', on_delete=models.CASCADE, null=True, blank=True,
+    parent = TreeForeignKey('self', on_delete=models.CASCADE,
+                            null=True, blank=True,
                             related_name='children')
 

@@ -13,6 +13,7 @@ class PublisherRequiredMixin(AccessMixin):
 class OwnerRequiredMixin(object):
     """Verify that the current user is publisher and owner."""
     def dispatch(self, request, *args, **kwargs):
-        if not request.user.publisher_profile.pk == self.get_object().publishing.pk:
+        if not request.user.publisher_profile.pk == \
+               self.get_object().publishing.pk:
             raise PermissionDenied
         return super().dispatch(request, *args, **kwargs)

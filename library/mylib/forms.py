@@ -28,7 +28,8 @@ class SignUpForm(UserCreationForm):
 
     class Meta(UserCreationForm.Meta):
         model = User
-        fields = ('username', 'password1', 'password2', 'first_name', 'last_name',
+        fields = ('username', 'password1', 'password2',
+                  'first_name', 'last_name',
                   'email', 'birth_date', 'is_subscription')
 
     def save(self):

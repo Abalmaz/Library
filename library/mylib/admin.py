@@ -1,6 +1,6 @@
 from django.contrib import admin
-from django.contrib.auth.admin import UserAdmin
-from .models import Book, Author, PublishingHouse, Genre, Country, BookAuthor, User, Publisher
+from .models import Book, Author, PublishingHouse, Genre, Country,\
+    BookAuthor, User, Publisher
 
 # Register your models here.
 
@@ -20,7 +20,7 @@ class PublisherInline(admin.StackedInline):
     verbose_name_plural = 'publisher'
 
 
-class CustomUserAdmin(UserAdmin):
+class CustomUserAdmin(admin.ModelAdmin):
     inlines = (PublisherInline, )
 
 

@@ -16,9 +16,4 @@ class Migration(migrations.Migration):
             name='publishing_house',
             field=models.ForeignKey(blank=True, on_delete=django.db.models.deletion.CASCADE, to='mylib.PublishingHouse'),
         ),
-        migrations.AlterField(
-            model_name='user',
-            name='is_reader',
-            field=models.BooleanField(default=True),
-        ),
     ]
