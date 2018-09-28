@@ -7,3 +7,4 @@ celery==4.2.1
 django-allauth==0.37.1
 djangorestframework==3.8.2
 Markdown==3.0.1
+django-rest-swagger==2.2.0
