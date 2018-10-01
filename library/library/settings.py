@@ -46,12 +46,17 @@ INSTALLED_APPS = [
     'star_ratings',
     'django_filters',
     'mptt',
+
+    'rest_framework',
+    'rest_framework.authtoken',
+    'rest_auth',
+
     'allauth',
     'allauth.account',
+    'rest_auth.registration',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.facebook',
     'allauth.socialaccount.providers.google',
-    'rest_framework',
     'rest_framework_swagger',
 
 ]
@@ -228,6 +233,7 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
     ),
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
     'PAGE_SIZE': 5,

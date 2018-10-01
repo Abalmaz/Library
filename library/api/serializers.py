@@ -1,5 +1,4 @@
 from rest_framework import serializers
-from star_ratings.models import Rating
 from mylib.models import User, Book, PublishingHouse, Author, Genre, BookAuthor
 
 
@@ -9,41 +8,45 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
         fields = ('url', 'username', 'email', 'is_reader', 'is_publisher')
 
 
-class GenreSerializer(serializers.HyperlinkedModelSerializer):
+class GenreSerializer(serializers.ModelSerializer):
     class Meta:
         model = Genre
-        fields = ('name', )
+        fields = '__all__'
 
 
-class PublishingHouseSerializer(serializers.HyperlinkedModelSerializer):
+class PublishingHouseSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PublishingHouse
-        fields = ('name', )
+        fields = '__all__'
 
 
-class BookAuthorSerializer(serializers.HyperlinkedModelSerializer):
-    author = serializers.ReadOnlyField(source='author.short_name')
+class AuthorSerializer(serializers.HyperlinkedModelSerializer):
+
+    class Meta:
+        model = Author
+        fields = ('id', 'url', 'short_name', )
+
+
+class AuthorDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Author
+        fields = ('__all__')
+
+
+class BookAuthorSerializer(serializers.ModelSerializer):
+    author = AuthorSerializer()
 
     class Meta:
         model = BookAuthor
         fields = ('author', )
 
 
-class RatingSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = Rating
-        fields = '__all__'
-
-
 class BookSerializer(serializers.HyperlinkedModelSerializer):
     authors = BookAuthorSerializer(source='bookauthor_set', many=True)
     publishing = PublishingHouseSerializer(read_only=True)
     genre = GenreSerializer(many=True, read_only=True)
-    ratings = RatingSerializer()
-    # ratings = serializers.SlugRelatedField(queryset=Rating.objects.all(),
-    #                                        slug_field='average')
+    rating_avg = serializers.SerializerMethodField()
 
     class Meta:
         model = Book
@@ -53,4 +56,11 @@ class BookSerializer(serializers.HyperlinkedModelSerializer):
                   'genre',
                   'description',
                   'cover',
-                  'ratings')
+                  'rating_avg',
+                  )
+
+    def get_rating_avg(self, obj):
+        if obj.ratings.exists():
+            return obj.ratings.first().average
+        else:
+            return 0
