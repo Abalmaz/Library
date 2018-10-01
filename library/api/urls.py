@@ -7,6 +7,7 @@ schema_view = get_swagger_view(title='Library API')
 
 router = routers.DefaultRouter()
 router.register(r'books', views.BookViewSet)
+router.register(r'authors', views.AuthorViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),

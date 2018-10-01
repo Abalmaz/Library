@@ -1,11 +1,17 @@
 from rest_framework import serializers
-from mylib.models import User, Book, PublishingHouse, Author, Genre, BookAuthor
+from mylib.models import User, Book, PublishingHouse, Country, Author, Genre, BookAuthor
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = User
         fields = ('url', 'username', 'email', 'is_reader', 'is_publisher')
+
+
+class CountrySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Genre
+        fields = '__all__'
 
 
 class GenreSerializer(serializers.ModelSerializer):
@@ -28,25 +34,10 @@ class AuthorSerializer(serializers.HyperlinkedModelSerializer):
         fields = ('id', 'url', 'short_name', )
 
 
-class AuthorDetailSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Author
-        fields = ('__all__')
-
-
-class BookAuthorSerializer(serializers.ModelSerializer):
-    author = AuthorSerializer()
-
-    class Meta:
-        model = BookAuthor
-        fields = ('author', )
-
-
 class BookSerializer(serializers.HyperlinkedModelSerializer):
-    authors = BookAuthorSerializer(source='bookauthor_set', many=True)
+    authors = AuthorSerializer(many=True)
     publishing = PublishingHouseSerializer(read_only=True)
     genre = GenreSerializer(many=True, read_only=True)
-    rating_avg = serializers.SerializerMethodField()
 
     class Meta:
         model = Book
@@ -56,11 +47,19 @@ class BookSerializer(serializers.HyperlinkedModelSerializer):
                   'genre',
                   'description',
                   'cover',
-                  'rating_avg',
+                  # 'rating_avg',
                   )
 
-    def get_rating_avg(self, obj):
-        if obj.ratings.exists():
-            return obj.ratings.first().average
-        else:
-            return 0
+
+class AuthorDetailSerializer(serializers.ModelSerializer):
+    country = CountrySerializer()
+    genre = GenreSerializer(many=True)
+    num_books_after_1910 = serializers.IntegerField()
+    avg_page = serializers.IntegerField()
+    min_page_before_1910 = serializers.IntegerField()
+    # avg_rating = serializers.IntegerField()
+    # max_rating = serializers.IntegerField()
+
+    class Meta:
+        model = Author
+        fields = ('__all__')
