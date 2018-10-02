@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from mylib.models import User, Book, PublishingHouse, Country, Author, Genre, BookAuthor
+from mylib.models import User, Book, PublishingHouse, Country, \
+                         Author, Genre, BookAuthor
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
