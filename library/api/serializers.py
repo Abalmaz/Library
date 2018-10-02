@@ -38,6 +38,7 @@ class BookSerializer(serializers.HyperlinkedModelSerializer):
     authors = AuthorSerializer(many=True)
     publishing = PublishingHouseSerializer(read_only=True)
     genre = GenreSerializer(many=True, read_only=True)
+    rating_avg = serializers.FloatField()
 
     class Meta:
         model = Book
@@ -47,18 +48,18 @@ class BookSerializer(serializers.HyperlinkedModelSerializer):
                   'genre',
                   'description',
                   'cover',
-                  # 'rating_avg',
+                  'rating_avg',
                   )
 
 
-class AuthorDetailSerializer(serializers.ModelSerializer):
+class AuthorDetailSerializer(serializers.HyperlinkedModelSerializer):
     country = CountrySerializer()
     genre = GenreSerializer(many=True)
-    num_books_after_1910 = serializers.IntegerField()
+    count_books_after_1910 = serializers.IntegerField()
     avg_page = serializers.IntegerField()
     min_page_before_1910 = serializers.IntegerField()
-    # avg_rating = serializers.IntegerField()
-    # max_rating = serializers.IntegerField()
+    avg_rating = serializers.FloatField()
+    max_rating = serializers.FloatField()
 
     class Meta:
         model = Author

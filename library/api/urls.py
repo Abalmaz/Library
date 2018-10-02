@@ -11,7 +11,7 @@ router.register(r'authors', views.AuthorViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
-    path('author/<pk>/', views.AuthorDetail.as_view(), name='author-detail'),
+    # path('author/<pk>/', views.AuthorDetail.as_view(), name='author-detail'),
     path('rest-auth/', include('rest_auth.urls')),
     path('rest-auth/registration/', include('rest_auth.registration.urls')),
     path('rest-auth/facebook/', views.FacebookLogin.as_view(), name='fb_login'),
