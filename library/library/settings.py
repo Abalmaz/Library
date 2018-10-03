@@ -49,11 +49,12 @@ INSTALLED_APPS = [
 
     'rest_framework',
     'rest_framework.authtoken',
+
     'rest_auth',
+    'rest_auth.registration',
 
     'allauth',
     'allauth.account',
-    'rest_auth.registration',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.facebook',
     'allauth.socialaccount.providers.google',
@@ -71,15 +72,16 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
+CORS_ORIGIN_ALLOW_ALL = True
 ROOT_URLCONF = 'library.urls'
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['templates/', ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -145,6 +147,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+    os.path.join(BASE_DIR, 'mylib/static/'),
+]
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'mylib/media/')
@@ -154,7 +160,7 @@ FIXTURE_DIRS = [
 ]
 
 # TEMPLATE_DIRS = (
-#     os.path.join(BASE_DIR, 'mylib/templates/'),
+#     os.path.join(BASE_DIR, '/mylib/templates/'),
 # )
 
 AUTH_USER_MODEL = 'mylib.User'
@@ -231,11 +237,17 @@ CELERY_BEAT_SCHEDULE = {
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
         'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.SessionAuthentication',
-        'rest_framework.authentication.TokenAuthentication',
     ),
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
     'PAGE_SIZE': 5,
     'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',)
+}
+
+REST_USE_JWT = True
+
+REST_AUTH_SERIALIZERS = {
+    'USER_DETAILS_SERIALIZER': 'api.serializers.UserSerializer',
 }

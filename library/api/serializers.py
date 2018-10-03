@@ -7,6 +7,7 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = User
         fields = ('url', 'username', 'email', 'is_reader', 'is_publisher')
+        read_only_fields = ('email',)
 
 
 class CountrySerializer(serializers.ModelSerializer):
@@ -43,7 +44,7 @@ class BookSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Book
-        fields = ('url', 'title', 'year', 'number_page',
+        fields = ('url', 'id', 'title', 'year', 'number_page',
                   'authors',
                   'publishing',
                   'genre',
