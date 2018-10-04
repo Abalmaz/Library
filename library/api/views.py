@@ -7,6 +7,7 @@ from rest_framework import viewsets
 from django_filters.rest_framework import DjangoFilterBackend
 from api.serializers import BookSerializer, AuthorDetailSerializer
 from mylib.models import Book, Author
+from rest_framework.filters import SearchFilter, OrderingFilter
 
 
 class AuthorViewSet(viewsets.ReadOnlyModelViewSet):
@@ -41,9 +42,11 @@ class AuthorViewSet(viewsets.ReadOnlyModelViewSet):
 class BookViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
-    filter_backends = (DjangoFilterBackend,)
-    filter_fields = ('title', 'authors', 'year', 'publishing')
-    ordering_fields = ('title', 'year', 'authors')
+    # filter_backends = (DjangoFilterBackend,)
+    # filter_fields = ('title', 'authors', 'year', 'publishing')
+    filter_backends = [SearchFilter, OrderingFilter]
+    search_fields = ['title', 'year', 'authors__first_name']
+    ordering_fields = ('title', 'year', 'authors__short_name')
 
     def get_queryset(self):
         return super().get_queryset().annotate(rating_avg=F('ratings__average'))
