@@ -1,0 +1,16 @@
+{% extends 'mylib/base.html' %}
+
+{% block content %}
+    <h3>{{ author.short_name }}</h3>
+    <img src="{{ author.photo.url }}">
+    <p>Name: {{ author.full_name }} </p>
+    <p>Years: {{ author.birth_date }} - {{ author.death_date }}</p>
+    <p>Country: {{ author.country }}</p>
+    <p>Genre:
+        <ul>{% for g in author.genre.all %}<li>{{ g }}</li>{% endfor %}</ul>
+    <p>Books:
+        <ul>{% for b in author.book_set.all %}<li>{{ b }}</li>{% endfor %}</ul>
+    </p>
+    <p>Biography: {{ author.biography }}</p>
+
+{% endblock %}
