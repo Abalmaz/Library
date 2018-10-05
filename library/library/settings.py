@@ -26,9 +26,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'sw1an-$_4x5f@eus^x1^rlva%cj_4u67)$cy$o-7rl*^cq+x!x'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 
 # Application definition
@@ -143,7 +143,8 @@ STATIC_URL = '/static/'
 
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
-    os.path.join(BASE_DIR, 'mylib/static')
+    os.path.join(BASE_DIR, 'mylib/static'),
+    os.path.join(BASE_DIR, 'static'),
 )
 
 
