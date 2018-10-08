@@ -21,17 +21,23 @@
     <p>Description: {{ book.description }}</p>
 
     <hr>
+
+    {% if user.is_authenticated %}
     <form method="post" id="postcomment" class="comment-form">
         {% csrf_token %}
           {{ form.as_p }}
         <button type="submit" class="btn btn-success">Comment</button>
     </form>
+    {% endif %}
+
     <ul id="comments">
         {% recursetree comments %}
             <li id="{{ node.pk }}" class="comment">
                 <p class="author">{{ node.author }} - {{node.created_at|naturaltime}}</p>
                 <p class="text">{{ node.text|linebreaks }}</p>
-                <p><a href="">reply</a></p>
+                {% if user.is_authenticated %}
+                <p><a href="" class="reply">reply</a></p>
+                {% endif %}
                 {% if not node.is_leaf_node %}
                     <ul>
                         {{ children }}
@@ -43,4 +49,4 @@
 {% endblock %}
 {% block script %}
     <script src="{% static 'mylib/js/script.js' %}"></script>
-s{% endblock %}
+{% endblock %}
