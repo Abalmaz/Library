@@ -28,7 +28,7 @@ SECRET_KEY = 'sw1an-$_4x5f@eus^x1^rlva%cj_4u67)$cy$o-7rl*^cq+x!x'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = bool( os.environ.get('DJANGO_DEBUG', True) )
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'calm-peak-45540.herokuapp.com']
 
 
 # Application definition
@@ -54,7 +54,7 @@ INSTALLED_APPS = [
 
 ]
 
-SITE_ID = 3
+SITE_ID = 4
 
 MIDDLEWARE = [
     'whitenoise.middleware.WhiteNoiseMiddleware',
