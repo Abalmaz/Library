@@ -6,3 +6,5 @@ $(document).ready(function(){
         $(this).parent().append(form);
     });
 });
+
+console.log("Test");
