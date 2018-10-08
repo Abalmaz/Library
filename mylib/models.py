@@ -1,9 +1,12 @@
 from django.contrib.auth.models import AbstractUser
 from django.contrib.sites.shortcuts import get_current_site
+from django.core.validators import MinValueValidator
 from django.db import models
 from django.urls import reverse
 from django.conf import settings
 from django.utils import timezone
+
+from mylib.validators import validate_year
 from .abs_models import Timestamp
 from django.contrib.contenttypes.fields import GenericRelation
 from star_ratings.models import Rating
@@ -73,8 +76,8 @@ class Author(Timestamp):
 
 class Book(Timestamp):
     title = models.CharField(unique=True, max_length=80)
-    year = models.IntegerField()
-    number_page = models.IntegerField()
+    year = models.IntegerField(validators=[validate_year,])
+    number_page = models.IntegerField(validators=[MinValueValidator(1)],)
     publishing = models.ForeignKey(PublishingHouse, on_delete=models.CASCADE)
     authors = models.ManyToManyField(Author, through='BookAuthor')
     genre = models.ManyToManyField(Genre)

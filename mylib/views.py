@@ -7,7 +7,7 @@ from django.contrib.auth import login
 
 from .mixins import PublisherRequiredMixin, OwnerRequiredMixin
 from .filters import BookFilter
-from .forms import SignUpForm, CommentForm
+from .forms import SignUpForm, CommentForm, BookForm
 from django.views.generic import DetailView, ListView, CreateView, \
     UpdateView, DeleteView
 
@@ -62,12 +62,10 @@ class BookListView(ListView):
 
 class BookCreateView(PublisherRequiredMixin, CreateView):
     login_url = 'login'
-    model = Book
-    template_name = 'mylib/add_book.html'
-    fields = ('title', 'authors', 'genre',
-              'year', 'number_page',
-              'description', 'cover')
     success_url = reverse_lazy('profile')
+    model = Book
+    form_class = BookForm
+    template_name = 'mylib/add_book.html'
 
     def form_valid(self, form):
         obj = form.save(commit=False)

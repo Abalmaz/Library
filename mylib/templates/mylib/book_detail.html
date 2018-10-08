@@ -8,7 +8,9 @@
 {% endblock %}
 {% block content %}
     <h3>{{ book.title }}</h3>
+    {% if book.cover %}
     <img src="{{ book.cover.url }}">
+    {% endif %}
     {% ratings book %}
     <p>Authors:
         <ul>{% for author in book.authors.all %}<li>{{ author.full_name }}</li>{% endfor %}</ul>
