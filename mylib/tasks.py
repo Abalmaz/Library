@@ -23,7 +23,7 @@ def send_new_book():
         context['books'] = books
         subject = 'New book'
         message = render_to_string('mylib/mail.html', context)
-        mail_from = settings.EMAIL_FROM
+        mail_from = settings.EMAIL_HOST_USERss
         users_emails = User.objects.filter(is_subscription=True).values_list(
             'email', flat=True)
         if users_emails:

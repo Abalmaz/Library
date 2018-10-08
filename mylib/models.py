@@ -138,7 +138,7 @@ class Invitation(Timestamp):
                                     self.get_absolute_url()]))
         message = render_to_string('registration/invitation_email.html',
                                    context)
-        mail_from = settings.EMAIL_FROM
+        mail_from = settings.EMAIL_HOST_USER
         mail_to = self.user.email
         send_mail(message=message,
                   html_message=message,
