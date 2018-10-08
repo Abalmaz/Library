@@ -139,7 +139,7 @@ class Invitation(Timestamp):
         mail_to = self.user.email
         send_mail(message=message,
                   html_message=message,
-                  recipient_list=mail_to,
+                  recipient_list=[mail_to],
                   from_email=mail_from,
                   subject=subject)
 
