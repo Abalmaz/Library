@@ -2,7 +2,9 @@
 
 {% block content %}
     <h3>{{ author.short_name }}</h3>
-    <img src="{{ author.photo.url }}">
+    {% if author.photo %}
+        <img src="{{ author.photo.url }}">
+    {% endif %}
     <p>Name: {{ author.full_name }} </p>
     <p>Years: {{ author.birth_date }} - {{ author.death_date }}</p>
     <p>Country: {{ author.country }}</p>
