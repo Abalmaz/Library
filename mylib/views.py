@@ -87,7 +87,8 @@ class SignUpView(CreateView):
 
     def form_valid(self, form):
         user = form.save()
-        login(self.request, user)
+        login(self.request, user,
+              backend='django.contrib.auth.backends.ModelBackend')
         return redirect('book_list')
 
 
@@ -120,7 +121,8 @@ def invitation(request, token):
         form = SetPasswordForm(user, request.POST)
         if form.is_valid():
             form.save()
-            login(request, user)
+            login(request, user,
+                  backend='django.contrib.auth.backends.ModelBackend')
             return redirect('book_list')
     else:
         form = SetPasswordForm(user)
