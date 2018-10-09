@@ -11,10 +11,10 @@ def create_auth_token(sender, instance=None, created=False, **kwargs):
             inv.send()
 
 
-@receiver(post_save, sender=User)
-def create_user_profile(sender, instance, created, **kwargs):
-    if instance.is_publisher:
-        if created:
-            Publisher.objects.get_or_create(user=instance)
-        else:
-            instance.publisher_profile.save()
+# @receiver(post_save, sender=User)
+# def create_user_profile(sender, instance, created, **kwargs):
+#     if instance.is_publisher:
+#         if created:
+#             Publisher.objects.get_or_create(user=instance)
+#         else:
+#             instance.publisher_profile.save()
