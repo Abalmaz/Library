@@ -23,7 +23,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'sw1an-$_4x5f@eus^x1^rlva%cj_4u67)$cy$o-7rl*^cq+x!x'
+# SECRET_KEY = 'sw1an-$_4x5f@eus^x1^rlva%cj_4u67)$cy$o-7rl*^cq+x!x'
+SECRET_KEY = os.environ.get(
+    'DJANGO_SECRET_KEY', 'sw1an-$_4x5f@eus^x1^rlva%cj_4u67)$cy$o-7rl*^cq+x!x')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = bool( os.environ.get('DJANGO_DEBUG', True) )
@@ -61,7 +63,7 @@ INSTALLED_APPS = [
 
 ]
 
-SITE_ID = 4
+SITE_ID = os.environ.get('SITE_ID', 1)
 
 MIDDLEWARE = [
     'whitenoise.middleware.WhiteNoiseMiddleware',
@@ -103,13 +105,18 @@ WSGI_APPLICATION = 'library.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'library',
-        'USER': 'db_user',
-        'PASSWORD': '',
-        'HOST': 'localhost',
-        'PORT': '',
+        'NAME': 'postgres',
+        'USER': 'postgres',
+        'HOST': 'db',
+        'PORT': '5432',
     }
 }
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     }
+# }
 
 
 # Password validation
@@ -179,7 +186,7 @@ EMAIL_USE_SSL = False
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'poletehnika.planshet@gmail.com'
-EMAIL_HOST_PASSWORD = os.environ['SECRET']
+EMAIL_HOST_PASSWORD = os.environ.get('SECRET', '')
 
 INVITATIONS_LIFETIME = 1
 
@@ -222,8 +229,8 @@ SOCIALACCOUNT_PROVIDERS = {
 
 # Celery settings
 # CELERY STUFF
-CELERY_BROKER_URL = 'redis://localhost:6379'
-CELERY_RESULT_BACKEND = 'redis://localhost:6379'
+CELERY_BROKER_URL = 'redis://redis:6379/0'
+CELERY_RESULT_BACKEND = 'redis://redis:6379/0'
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
