@@ -6,7 +6,7 @@ We have news book of the week:
 <ul>
 {% for book in books %}
     <li>
-        <a href="http://{{ book.url }}"> {{ book.title }} </a>
+        <a href="{{ book.url }}"> {{ book.title }} </a>
     </li>
 {% endfor %}
 </ul>

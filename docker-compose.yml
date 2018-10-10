@@ -5,17 +5,14 @@ services:
     image: postgres
   web:
     build: .
-    command: python3 manage.py migrate --noinput
-    command: ./load_db.sh
-    command: python3 manage.py runserver 0.0.0.0:8000
-    environment:
-      - DJANGO_DEBUG = False
+    command: bash -c "python manage.py migrate && ./load_db.sh && python manage.py runserver 0.0.0.0:8000"
+    container_name: web_library
     volumes:
-      - .:/code
+    - .:/code
     ports:
-      - "8000:8000"
+    - "8000:8000"
     depends_on:
-      - db
+    - db
   redis:
     image: "redis:alpine"
     ports:
@@ -26,5 +23,5 @@ services:
     volumes:
       - .:/code
     depends_on:
-      - db
+      - web
       - redis

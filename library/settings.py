@@ -63,7 +63,7 @@ INSTALLED_APPS = [
 
 ]
 
-SITE_ID = os.environ.get('SITE_ID', 1)
+SITE_ID = os.environ.get('CURRENT_SITE', 1)
 
 MIDDLEWARE = [
     'whitenoise.middleware.WhiteNoiseMiddleware',
@@ -186,7 +186,7 @@ EMAIL_USE_SSL = False
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'poletehnika.planshet@gmail.com'
-EMAIL_HOST_PASSWORD = os.environ.get('SECRET', '')
+EMAIL_HOST_PASSWORD = os.environ.get('SECRET', 'qjov3vavBz72')
 
 INVITATIONS_LIFETIME = 1
 
