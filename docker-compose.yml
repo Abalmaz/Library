@@ -4,24 +4,29 @@ services:
   db:
     image: postgres
   web:
-    build: .
-    command: bash -c "python manage.py migrate && ./load_db.sh && python manage.py runserver 0.0.0.0:8000"
-    container_name: web_library
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: bash -c "python manage.py runserver 0.0.0.0:8000"
     volumes:
-    - .:/code
+    - .:/app
     ports:
     - "8000:8000"
     depends_on:
     - db
+    - redis
   redis:
     image: "redis:alpine"
     ports:
       - "6379:6379"
   celery:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
     command: celery -A library worker -B -l info
     volumes:
-      - .:/code
+    - .:/app
     depends_on:
-      - web
-      - redis
+    - web
+    - redis
+
