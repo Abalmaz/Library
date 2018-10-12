@@ -5,7 +5,6 @@ from django.urls import reverse_lazy
 from django.shortcuts import redirect, get_object_or_404, render
 from django.contrib.auth import login
 
-from library import settings
 from .mixins import PublisherRequiredMixin, OwnerRequiredMixin
 from .filters import BookFilter
 from .forms import SignUpForm, CommentForm, BookForm
@@ -54,7 +53,6 @@ class BookListView(ListView):
         context = super().get_context_data(*args, **kwargs)
         filter = BookFilter(self.request.GET, queryset=self.get_queryset())
         context['filter'] = filter
-        context['settings'] = settings
 
         return context
 
