@@ -1,20 +1,28 @@
 version: '3'
 
 services:
+  nginx:
+    image: nginx:latest
+    ports:
+      - "80:80"
+    volumes:
+      - ./config_files/nginx.conf:/etc/nginx/conf.d/
+    depends_on:
+      - web
   db:
     image: postgres
   web:
     build:
       context: .
       dockerfile: Dockerfile
-    command: bash -c "python manage.py runserver 0.0.0.0:8000"
     volumes:
     - .:/app
     ports:
-    - "8000:8000"
+      - "8000:8000"
     depends_on:
     - db
     - redis
+    entrypoint: ./docker-entrypoint.sh
   redis:
     image: "redis:alpine"
     ports:
@@ -29,4 +37,5 @@ services:
     depends_on:
     - web
     - redis
+
 
