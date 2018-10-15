@@ -3,8 +3,10 @@ version: '3'
 services:
   nginx:
     image: nginx:latest
+    expose:
+      - 80
     ports:
-      - "8000:80"
+      - "80:80"
     volumes:
       - .:/app
       - ./config_files:/etc/nginx/conf.d
