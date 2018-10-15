@@ -31,7 +31,8 @@ SECRET_KEY = os.environ.get(
 DEBUG = bool( os.environ.get('DJANGO_DEBUG', True) )
 # DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'calm-peak-45540.herokuapp.com']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'calm-peak-45540.herokuapp.com',
+                 '172.16.100.205']
 
 # Application definition
 

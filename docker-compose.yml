@@ -4,9 +4,10 @@ services:
   nginx:
     image: nginx:latest
     ports:
-      - "80:80"
+      - "8000:80"
     volumes:
-      - ./config_files/nginx.conf:/etc/nginx/conf.d/
+      - .:/app
+      - ./config_files:/etc/nginx/conf.d
     depends_on:
       - web
   db:
@@ -16,10 +17,10 @@ services:
       context: .
       dockerfile: Dockerfile
     volumes:
-    - .:/app
+      - .:/app
     depends_on:
-    - db
-    - redis
+      - db
+      - redis
     entrypoint: ./docker-entrypoint.sh
   redis:
     image: "redis:alpine"
