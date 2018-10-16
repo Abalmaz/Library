@@ -48,7 +48,7 @@ class Author(Timestamp):
     biography = models.TextField()
     country = models.ForeignKey(Country, on_delete=models.CASCADE)
     genre = models.ManyToManyField(Genre)
-    photo = models.ImageField(blank=True, upload_to='author_photo/')
+    photo = models.ImageField(blank=True, null=True, upload_to='author_photo/')
 
     def __str__(self):
         return self.second_name
@@ -58,7 +58,7 @@ class Author(Timestamp):
         return '%s %s %s' % (self.second_name,
                              self.first_name,
                              self.middle_name)
-
+    @property
     def short_name(self):
         if self.pseudonym:
             return '{}'.format(self.pseudonym)
@@ -82,7 +82,7 @@ class Book(Timestamp):
     authors = models.ManyToManyField(Author, through='BookAuthor')
     genre = models.ManyToManyField(Genre)
     description = models.TextField()
-    cover = models.ImageField(blank=True, upload_to='book_cover/')
+    cover = models.ImageField(blank=True, null=True, upload_to='book_cover/')
     ratings = GenericRelation(Rating, related_query_name='books')
 
     def __str__(self):
@@ -106,7 +106,7 @@ class User(AbstractUser):
     is_publisher = models.BooleanField(default=False)
     is_subscription = models.BooleanField(verbose_name='send email',
                                           default=False)
-    middle_name = models.CharField(max_length=25, blank=True)
+    middle_name = models.CharField(max_length=25, blank=True, null=True)
     birth_date = models.DateField(null=True, blank=True)
     email = models.EmailField(verbose_name='email address',
                               unique=True,
