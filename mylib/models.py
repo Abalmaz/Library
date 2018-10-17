@@ -58,6 +58,7 @@ class Author(Timestamp):
         return '%s %s %s' % (self.second_name,
                              self.first_name,
                              self.middle_name)
+
     @property
     def short_name(self):
         if self.pseudonym:
@@ -76,7 +77,7 @@ class Author(Timestamp):
 
 class Book(Timestamp):
     title = models.CharField(unique=True, max_length=80)
-    year = models.IntegerField(validators=[validate_year,])
+    year = models.IntegerField(validators=[validate_year, ])
     number_page = models.IntegerField(validators=[MinValueValidator(1)],)
     publishing = models.ForeignKey(PublishingHouse, on_delete=models.CASCADE)
     authors = models.ManyToManyField(Author, through='BookAuthor')

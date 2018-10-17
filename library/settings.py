@@ -197,11 +197,14 @@ EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'poletehnika.planshet@gmail.com'
 EMAIL_HOST_PASSWORD = os.environ.get('SECRET', 'qjov3vavBz72')
-# EMAIL_HOST = 'localhost'
-# EMAIL_PORT = '1025'
-# EMAIL_HOST_USER = 'library.admin@localhost'
 
 INVITATIONS_LIFETIME = 1
+
+# settings for send invitations email
+# EMAIL_HOST = 'localhost'
+# EMAIL_PORT = '1025'
+# EMAIL_FROM = 'library.admin@localhost'
+# INVITATIONS_LIFETIME = 1
 
 
 # settings for social authentication

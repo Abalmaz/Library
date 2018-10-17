@@ -1,18 +1,16 @@
 from django.test import TestCase
-from django.urls import reverse, resolve
-
-from mylib.views import BookListView
+from django.urls import reverse
 
 
 class BookListTest(TestCase):
     def test_book_list_view_status_code(self):
-        url = reverse('book_list')
-        response = self.client.get(url)
+        response = self.client.get(reverse('book_list'))
         self.assertEquals(response.status_code, 200)
 
-    def test_book_list_url_resolves_view(self):
-        view = resolve('/')
-        self.assertEquals(view.func, BookListView)
+    def test_book_list_view_uses_correct_template(self):
+        response = self.client.get(reverse('book_list'))
+        self.assertEquals(response.status_code, 200)
+        self.assertTemplateUsed(response, 'mylib/book_list.html')
 
 
 class BookDetailTest(TestCase):
