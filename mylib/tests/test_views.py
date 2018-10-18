@@ -1,5 +1,6 @@
 from django.contrib.auth import views as auth_views
-from django.contrib.auth.forms import PasswordResetForm, SetPasswordForm
+from django.contrib.auth.forms import PasswordResetForm, SetPasswordForm, \
+    PasswordChangeForm
 from django.contrib.auth.tokens import default_token_generator
 from django.core import mail
 from django.test import TestCase
@@ -13,14 +14,15 @@ from mylib.views import SignUpView
 
 
 class BookListTest(TestCase):
+    def setUp(self):
+        url = reverse('book_list')
+        self.response = self.client.get(url)
+
     def test_book_list_view_status_code(self):
-        response = self.client.get(reverse('book_list'))
-        self.assertEquals(response.status_code, 200)
+        self.assertEquals(self.response.status_code, 200)
 
     def test_book_list_view_uses_correct_template(self):
-        response = self.client.get(reverse('book_list'))
-        self.assertEquals(response.status_code, 200)
-        self.assertTemplateUsed(response, 'mylib/book_list.html')
+        self.assertTemplateUsed(self.response, 'mylib/book_list.html')
 
 
 class BookDetailTest(TestCase):
@@ -64,6 +66,9 @@ class SignUpTest(TestCase):
         self.assertContains(self.response, 'type="email"', 1)
         self.assertContains(self.response, 'type="password"', 2)
         self.assertContains(self.response, 'type="checkbox"', 1)
+
+    def test_signup_view_uses_correct_template(self):
+        self.assertTemplateUsed(self.response, 'registration/signup.html')
 
 
 class SuccessfulSignUpTests(TestCase):
@@ -128,6 +133,9 @@ class PasswordResetTest(TestCase):
     def test_form_inputs(self):
         self.assertContains(self.response, '<input', 2)
         self.assertContains(self.response, 'type="email"', 1)
+
+    def test_pass_reset_view_uses_correct_template(self):
+        self.assertTemplateUsed(self.response, 'registration/pass_reset.html')
 
 
 class SuccessfulPasswordResetTest(TestCase):
@@ -202,6 +210,10 @@ class PasswordResetDone(TestCase):
         self.assertEquals(view.func.view_class,
                           auth_views.PasswordResetDoneView)
 
+    def test_signup_view_uses_correct_template(self):
+        self.assertTemplateUsed(self.response,
+                                'registration/pass_reset_done.html')
+
 
 class PasswordResetConfirmTest(TestCase):
     def setUp(self):
@@ -236,6 +248,10 @@ class PasswordResetConfirmTest(TestCase):
     def test_form_inputs(self):
         self.assertContains(self.response, '<input', 3)
         self.assertContains(self.response, 'type="password"', 2)
+
+    def test_signup_view_uses_correct_template(self):
+        self.assertTemplateUsed(self.response,
+                                'registration/pass_reset_confirm.html')
 
 
 class InvalidPasswordResetConfirmTest(TestCase):
@@ -276,6 +292,89 @@ class PasswordResetCompleteTest(TestCase):
         view = resolve('/password_reset/complete/')
         self.assertEquals(view.func.view_class,
                           auth_views.PasswordResetCompleteView)
+
+    def test_signup_view_uses_correct_template(self):
+        self.assertTemplateUsed(self.response,
+                                'registration/pass_reset_complete.html')
+
+
+class PasswordChangeViewTest(TestCase):
+    def setUp(self):
+        username = 'test'
+        password = 'Abcd123'
+        User.objects.create_user(username=username,
+                                 email='john@doe.com',
+                                 password=password)
+        url = reverse('password_change')
+        self.client.login(username=username, password=password)
+        self.response = self.client.get(url)
+
+    def test_status_code(self):
+        self.assertEquals(self.response.status_code, 200)
+
+    def test_url_resolves_correct_view(self):
+        view = resolve('/password/change_password/')
+        self.assertEquals(view.func.view_class, auth_views.PasswordChangeView)
+
+    def test_csrf(self):
+        self.assertContains(self.response, 'csrfmiddlewaretoken')
+
+    def test_contains_form(self):
+        form = self.response.context.get('form')
+        self.assertIsInstance(form, PasswordChangeForm)
+
+    def test_form_inputs(self):
+        self.assertContains(self.response, '<input', 4)
+        self.assertContains(self.response, 'type="password"', 3)
+
+    def test_signup_view_uses_correct_template(self):
+        self.assertTemplateUsed(self.response,
+                                'registration/pass_change.html')
+
+
+class PasswordChangeTestBase(TestCase):
+    def setUp(self, data={}):
+        self.user = User.objects.create_user(username='test',
+                                             email='test@mail.com',
+                                             password='Abcd1234')
+        self.url = reverse('password_change')
+        self.client.login(username='test', password='Abcd1234')
+        self.response = self.client.post(self.url, data)
+        self.home_url = reverse('book_list')
+
+
+class SuccessfulPasswordChangeTest(PasswordChangeTestBase):
+    def setUp(self):
+        super().setUp({
+            'old_password': 'Abcd1234',
+            'new_password1': '4321dcbA',
+            'new_password2': '4321dcbA',
+        })
+
+    def test_redirection(self):
+        self.assertRedirects(self.response, reverse('password_change_done'))
+
+    def test_password_changed(self):
+        self.user.refresh_from_db()
+        self.assertTrue(self.user.check_password('4321dcbA'))
+
+    def test_user_authentication(self):
+        response = self.client.get(reverse('book_list'))
+        user = response.context.get('user')
+        self.assertTrue(user.is_authenticated)
+
+
+class InvalidPasswordChangeTest(PasswordChangeTestBase):
+    def test_status_code(self):
+        self.assertEquals(self.response.status_code, 200)
+
+    def test_form_errors(self):
+        form = self.response.context.get('form')
+        self.assertTrue(form.errors)
+
+    def test_didnt_change_password(self):
+        self.user.refresh_from_db()
+        self.assertTrue(self.user.check_password('Abcd1234'))
 
 
 class UserUpdateTest(TestCase):
