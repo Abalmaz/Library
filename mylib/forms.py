@@ -6,12 +6,15 @@ from .models import User, Comment, Book
 class SignUpForm(UserCreationForm):
     first_name = forms.CharField(
         label="First name",
+        required=False,
     )
     middle_name = forms.CharField(
         label="Middle name",
+        required=False,
     )
     last_name = forms.CharField(
         label="Last name",
+        required=False,
     )
     email = forms.EmailField(
         label="Email",
@@ -20,10 +23,12 @@ class SignUpForm(UserCreationForm):
     birth_date = forms.DateField(
         label="Birth date",
         widget=forms.DateInput,
+        required=False,
     )
     is_subscription = forms.BooleanField(
         label="Send email",
         widget=forms.CheckboxInput,
+        required=False,
     )
 
     class Meta(UserCreationForm.Meta):

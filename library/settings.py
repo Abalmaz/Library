@@ -28,7 +28,7 @@ SECRET_KEY = os.environ.get(
     'DJANGO_SECRET_KEY', 'sw1an-$_4x5f@eus^x1^rlva%cj_4u67)$cy$o-7rl*^cq+x!x')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = bool( os.environ.get('DJANGO_DEBUG', True) )
+DEBUG = bool(os.environ.get('DJANGO_DEBUG', True))
 # DEBUG = True
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'calm-peak-45540.herokuapp.com']
@@ -201,6 +201,7 @@ EMAIL_HOST_PASSWORD = os.environ.get('SECRET', 'qjov3vavBz72')
 INVITATIONS_LIFETIME = 1
 
 # settings for send invitations email
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 # EMAIL_HOST = 'localhost'
 # EMAIL_PORT = '1025'
 # EMAIL_FROM = 'library.admin@localhost'
