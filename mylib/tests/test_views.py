@@ -21,11 +21,15 @@ class BookListTest(TestCase):
 
 
 class BookDetailTest(TestCase):
-    pass
+    def setUp(self):
+        url = reverse('book_info')
+        self.response = self.client.get(url)
 
+    def test_book_detail_view_status_code(self):
+        self.assertEquals(self.response.status_code, 200)
 
-class AuthorDetailTest(TestCase):
-    pass
+    def test_book_detail_view_uses_correct_template(self):
+        self.assertTemplateUsed(self.response, 'mylib/book_detail.html')
 
 
 class BookCreateTest(TestCase):
@@ -33,6 +37,14 @@ class BookCreateTest(TestCase):
 
 
 class BookDeleteTest(TestCase):
+    pass
+
+
+class AuthorDetailTest(TestCase):
+    pass
+
+
+class InvitationTest(TestCase):
     pass
 
 

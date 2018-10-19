@@ -1,0 +1,9 @@
+[
+{
+    "model": "mylib.publisher",
+    "pk": 3,
+    "fields": {
+        "publishing_house": 1
+    }
+}
+]

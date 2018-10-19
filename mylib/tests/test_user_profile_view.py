@@ -3,19 +3,17 @@ from django.forms import ModelForm
 from django.test import TestCase
 from django.urls import reverse, resolve
 
-from mylib.models import User, PublishingHouse, Publisher
+from mylib.models import User
 from mylib.views import UserUpdateView
 
 
 class UserProfileTestBase(TestCase):
     def setUp(self):
-        self.username = 'test'
-        self.password = 'Abcd1234'
-        self.user = User.objects.create_user(username=self.username,
-                                             email='test@gmail.com',
-                                             password=self.password)
+        call_command('loaddata', 'user.json')
+        self.user = User.objects.get(user_name='test_reader')
         self.url = reverse('profile')
-        self.client.login(username=self.username, password=self.password)
+        self.client.login(username=self.user.username,
+                          password=self.user.password)
 
 
 class UserProfileTest(UserProfileTestBase):
@@ -98,21 +96,17 @@ class UserProfilePublisherTestBase(TestCase):
         call_command('loaddata',
                      'country.json',
                      'PublishingHouse.json',
+                     'user.json',
+                     'user_publisher.json',
                      'genre.json',
                      'author.json',
                      'book.json',
                      'm2m.json',
                      verbosity=0)
-        self.username = 'test_pub'
-        self.password = 'Abcd1234'
-        self.user = User.objects.create_user(username=self.username,
-                                             email='test@gmail.com',
-                                             is_publisher=True,
-                                             password=self.password)
-        Publisher.objects.create(user=self.user,
-                                 publishing_house=PublishingHouse.objects.last())
+        self.user = User.objects.get(username='test_publisher')
         self.url = reverse('profile')
-        self.client.login(username=self.username, password=self.password)
+        self.client.login(username=self.user.username,
+                          password=self.user.password)
 
 
 class UserProfilePublisherTest(UserProfilePublisherTestBase):
