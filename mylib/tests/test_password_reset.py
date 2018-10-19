@@ -175,7 +175,7 @@ class InvalidPasswordResetConfirmTest(TestCase):
     def test_html(self):
         password_reset_url = reverse('password_reset')
         self.assertContains(self.response, 'invalid password reset link')
-        self.assertContains(self.response, 'href="{0}"'.format(
+        self.assertContains(self.response, 'href="{}"'.format(
             password_reset_url))
 
 
@@ -192,6 +192,6 @@ class PasswordResetCompleteTest(TestCase):
         self.assertEquals(view.func.view_class,
                           auth_views.PasswordResetCompleteView)
 
-    def test_signup_view_uses_correct_template(self):
+    def test_pass_reset_view_uses_correct_template(self):
         self.assertTemplateUsed(self.response,
                                 'registration/pass_reset_complete.html')

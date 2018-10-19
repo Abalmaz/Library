@@ -1,8 +1,9 @@
+from django.contrib.auth.forms import SetPasswordForm
 from django.core.management import call_command
 from django.test import TestCase
 from django.urls import reverse, resolve
 
-from mylib.models import Book, Author
+from mylib.models import Book, Author, User, Invitation
 from mylib.views import BookListView, BookDetailView, AuthorDetailView
 
 
@@ -81,8 +82,49 @@ class AuthorDetailTest(TestCase):
 
 
 class InvitationTest(TestCase):
-    pass
+    def setUp(self):
+        call_command('loaddata',
+                     'user.json')
+        self.user = User.objects.get(username="test_publisher")
+        self.inv = Invitation.objects.get(user=self.user.pk)
+        self.url = reverse('invitation', kwargs={'token': self.inv.auth_token})
+        self.response = self.client.get(self.url)
+        self.home_url = reverse('book_list')
 
+    def test_invitation_status_code(self):
+        self.assertEquals(self.response.status_code, 200)
+
+    def test_invitation_form_contain(self):
+        form = self.response.context.get('form')
+        self.assertIsInstance(form, SetPasswordForm)
+
+    def test_csrf(self):
+        self.assertContains(self.response, 'csrfmiddlewaretoken')
+
+    def test_form_inputs(self):
+        self.assertContains(self.response, 'type="password"', 2)
+
+    def test_signup_view_uses_correct_template(self):
+        self.assertTemplateUsed(self.response,
+                                'registration/invitation.html')
+
+    # def test_valid_form_data(self):
+    #     data = {
+    #         'new_password1': 'Abcd12345',
+    #         'new_password2': 'Abcd12345'
+    #     }
+    #     self.client.post(self.url, data)
+    #     self.assertRedirects(self.response, self.home_url)
+    #
+    # def test_user_authentication(self):
+    #     response = self.client.get(self.home_url)
+    #     user = response.context.get('user')
+    #     self.assertTrue(user.is_authenticated)
+    #
+    # def test_invalid_form_data(self):
+    #     self.client.post(self.url, {})
+    #     form = self.response.context.get('form')
+    #     self.assertTrue(form.errors)
 
 
 
