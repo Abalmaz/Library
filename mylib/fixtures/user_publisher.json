@@ -3,7 +3,14 @@
     "model": "mylib.publisher",
     "pk": 3,
     "fields": {
-        "publishing_house": 1
+        "publishing_house": 2
+    }
+},
+{
+    "model": "mylib.publisher",
+    "pk": 4,
+    "fields": {
+        "publishing_house": 5
     }
 }
 ]

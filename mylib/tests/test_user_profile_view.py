@@ -10,10 +10,9 @@ from mylib.views import UserUpdateView
 class UserProfileTestBase(TestCase):
     def setUp(self):
         call_command('loaddata', 'user.json')
-        self.user = User.objects.get(user_name='test_reader')
+        self.user = User.objects.get(username='test_reader')
+        self.client.force_login(self.user)
         self.url = reverse('profile')
-        self.client.login(username=self.user.username,
-                          password=self.user.password)
 
 
 class UserProfileTest(UserProfileTestBase):
@@ -104,9 +103,8 @@ class UserProfilePublisherTestBase(TestCase):
                      'm2m.json',
                      verbosity=0)
         self.user = User.objects.get(username='test_publisher')
+        self.client.force_login(self.user)
         self.url = reverse('profile')
-        self.client.login(username=self.user.username,
-                          password=self.user.password)
 
 
 class UserProfilePublisherTest(UserProfilePublisherTestBase):
@@ -120,4 +118,13 @@ class UserProfilePublisherTest(UserProfilePublisherTestBase):
     def test_contains_book_list(self):
         self.assertContains(self.response, '<ul', 2)
         self.assertContains(self.response, '<p>Books:', 1)
+        book_del_url = reverse(
+            'book_delete',
+            kwargs=dict(
+                pk=self.user.publisher_profile.publishing_house.book_set.all()[
+                    0].pk)
+        )
+        book_add_url = reverse('book_add')
+        self.assertContains(self.response, 'href="{0}"'.format(book_del_url))
+        self.assertContains(self.response, 'href="{0}"'.format(book_add_url))
         self.assertContains(self.response, 'Add book</a>', 1)

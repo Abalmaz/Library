@@ -11,3 +11,4 @@ class SignUpFormTest(TestCase):
                     'birth_date', 'is_subscription']
         actual = list(form.fields)
         self.assertSequenceEqual(expected, actual)
+
