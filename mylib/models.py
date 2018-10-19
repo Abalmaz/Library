@@ -122,7 +122,6 @@ class Publisher(models.Model):
                                 related_name='publisher_profile')
     publishing_house = models.ForeignKey(PublishingHouse,
                                          on_delete=models.CASCADE,
-                                         blank=True,
                                          related_name='publishing')
 
 
