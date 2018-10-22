@@ -156,23 +156,7 @@ class InvitationTest(TestCase):
         self.assertTemplateUsed(self.response,
                                 'registration/invitation.html')
 
-    # def test_valid_form_data(self):
-    #     data = {
-    #         'new_password1': 'Abcd12345',
-    #         'new_password2': 'Abcd12345'
-    #     }
-    #     self.client.post(self.url, data)
-    #     self.assertRedirects(self.response, self.home_url)
-    #
-    # def test_user_authentication(self):
-    #     response = self.client.get(self.home_url)
-    #     user = response.context.get('user')
-    #     self.assertTrue(user.is_authenticated)
-    #
-    # def test_invalid_form_data(self):
-    #     self.client.post(self.url, {})
-    #     form = self.response.context.get('form')
-    #     self.assertTrue(form.errors)
+
 
 
 

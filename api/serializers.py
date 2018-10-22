@@ -65,3 +65,4 @@ class AuthorDetailSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Author
         fields = ('__all__')
+
