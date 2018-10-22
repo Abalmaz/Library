@@ -65,10 +65,16 @@ class BookDetailTest(BookDetailTestCase):
         self.assertIsInstance(form, CommentForm)
 
     def test_template_show_comment_form_for_auth_user(self):
-        self.assertContains(self.response, '<form ', 1)
+        self.assertContains(self.response, 'class="comment-form"', 1)
 
-    # def test_template_doesnt_show_comment_form_for_not_auth_user(self):
-    #     self.assertNotContains(self.response, 'class="comment-form"')
+
+class BookDetailNotAuthUserTest(BookDetailTestCase):
+    def setUp(self):
+        super().setUp()
+        self.response = self.client.get(self.url)
+
+    def test_template_doesnt_show_comment_form_for_not_auth_user(self):
+        self.assertNotContains(self.response, 'class="comment-form"')
 
 
 class CommentTest(TestCase):
