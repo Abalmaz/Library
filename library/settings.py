@@ -28,7 +28,9 @@ SECRET_KEY = os.environ.get(
     'DJANGO_SECRET_KEY', 'sw1an-$_4x5f@eus^x1^rlva%cj_4u67)$cy$o-7rl*^cq+x!x')
 
 # SECURITY WARNING: don't run with debug turned on in production!
+
 DEBUG = os.environ.get('DEBUG', True)
+
 # DEBUG = True
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'calm-peak-45540.herokuapp.com',
@@ -125,6 +127,15 @@ DATABASES = {
 # }
 # DATABASES = {
 #     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'postgres',
+#         'USER': 'postgres',
+#         'HOST': 'db',
+#         'PORT': '5432',
+#     }
+# }
+# DATABASES = {
+#     'default': {
 #         'ENGINE': 'django.db.backends.sqlite3',
 #         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
 #     }
@@ -199,11 +210,15 @@ EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'poletehnika.planshet@gmail.com'
 EMAIL_HOST_PASSWORD = os.environ.get('SECRET', 'qjov3vavBz72')
-# EMAIL_HOST = 'localhost'
-# EMAIL_PORT = '1025'
-# EMAIL_HOST_USER = 'library.admin@localhost'
 
 INVITATIONS_LIFETIME = 1
+
+# settings for send invitations email
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = 'localhost'
+# EMAIL_PORT = '1025'
+# EMAIL_FROM = 'library.admin@localhost'
+# INVITATIONS_LIFETIME = 1
 
 
 # settings for social authentication
@@ -272,7 +287,9 @@ REST_FRAMEWORK = {
     ),
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
     'PAGE_SIZE': 5,
-    'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',)
+    'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',),
+    'TEST_REQUEST_DEFAULT_FORMAT': 'json'
+
 }
 
 

@@ -1,0 +1,94 @@
+[
+{
+    "model": "mylib.user",
+    "pk": 1,
+    "fields": {
+        "password": "pbkdf2_sha256$120000$KUNhMTKYlNMU$AQbkjB16nJwAbBvcB/ZzHqrwtlszso7h0vMlWCcsc9c=",
+        "last_login": "2018-10-18T13:22:24.130Z",
+        "is_superuser": true,
+        "username": "admin",
+        "first_name": "",
+        "last_name": "",
+        "is_staff": true,
+        "is_active": true,
+        "date_joined": "2018-10-11T13:58:55.723Z",
+        "is_reader": true,
+        "is_publisher": true,
+        "is_subscription": false,
+        "middle_name": null,
+        "birth_date": null,
+        "email": "admin@gmail.com",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "mylib.user",
+    "pk": 2,
+    "fields": {
+        "password": "pbkdf2_sha256$120000$nXYEprcK15AP$sf2wgbJ+9x+K9XCaJdxuAtXBDv9Bo276TIcO6s7g7g0=",
+        "last_login": null,
+        "is_superuser": false,
+        "username": "test_reader",
+        "first_name": "",
+        "last_name": "",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2018-10-19T06:25:33.339Z",
+        "is_reader": true,
+        "is_publisher": false,
+        "is_subscription": false,
+        "middle_name": null,
+        "birth_date": null,
+        "email": "reader@mail.com",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "mylib.user",
+    "pk": 3,
+    "fields": {
+        "password": "pbkdf2_sha256$120000$ooXRtEPQD6Ul$b2ZOoji9rsE15mnR2dnyDD7msrR+IzrXDPqqZzTtWZc=",
+        "last_login": null,
+        "is_superuser": false,
+        "username": "test_publisher",
+        "first_name": "",
+        "last_name": "",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2018-10-19T06:26:08.911Z",
+        "is_reader": false,
+        "is_publisher": true,
+        "is_subscription": false,
+        "middle_name": null,
+        "birth_date": null,
+        "email": "publisher@mail.com",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "mylib.user",
+    "pk": 4,
+    "fields": {
+        "password": "pbkdf2_sha256$120000$zb2DLM3Z3cqk$FX70UruYfUYy4hSIxisLDzo0kRwrNKcFct7MikZBOaQ=",
+        "last_login": null,
+        "is_superuser": false,
+        "username": "test_publisher2",
+        "first_name": "",
+        "last_name": "",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2018-10-19T09:54:48.062Z",
+        "is_reader": false,
+        "is_publisher": true,
+        "is_subscription": false,
+        "middle_name": null,
+        "birth_date": null,
+        "email": "publisher2@mail.com",
+        "groups": [],
+        "user_permissions": []
+    }
+}
+]

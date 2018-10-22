@@ -1,0 +1,12 @@
+[run]
+omit =
+    */migrations/*
+    */tests/*
+    */env/*
+    ./mylib/decorators.py
+    ./mylib/tasks.py
+    ./config_files/*
+    *manage.py
+
+[html]
+directory = coverage_html_report

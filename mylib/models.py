@@ -48,7 +48,7 @@ class Author(Timestamp):
     biography = models.TextField()
     country = models.ForeignKey(Country, on_delete=models.CASCADE)
     genre = models.ManyToManyField(Genre)
-    photo = models.ImageField(blank=True, upload_to='author_photo/')
+    photo = models.ImageField(blank=True, null=True, upload_to='author_photo/')
 
     def __str__(self):
         return self.second_name
@@ -59,6 +59,7 @@ class Author(Timestamp):
                              self.first_name,
                              self.middle_name)
 
+    @property
     def short_name(self):
         if self.pseudonym:
             return '{}'.format(self.pseudonym)
@@ -76,13 +77,13 @@ class Author(Timestamp):
 
 class Book(Timestamp):
     title = models.CharField(unique=True, max_length=80)
-    year = models.IntegerField(validators=[validate_year,])
+    year = models.IntegerField(validators=[validate_year, ])
     number_page = models.IntegerField(validators=[MinValueValidator(1)],)
     publishing = models.ForeignKey(PublishingHouse, on_delete=models.CASCADE)
     authors = models.ManyToManyField(Author, through='BookAuthor')
     genre = models.ManyToManyField(Genre)
     description = models.TextField()
-    cover = models.ImageField(blank=True, upload_to='book_cover/')
+    cover = models.ImageField(blank=True, null=True, upload_to='book_cover/')
     ratings = GenericRelation(Rating, related_query_name='books')
 
     def __str__(self):
@@ -106,7 +107,7 @@ class User(AbstractUser):
     is_publisher = models.BooleanField(default=False)
     is_subscription = models.BooleanField(verbose_name='send email',
                                           default=False)
-    middle_name = models.CharField(max_length=25, blank=True)
+    middle_name = models.CharField(max_length=25, blank=True, null=True)
     birth_date = models.DateField(null=True, blank=True)
     email = models.EmailField(verbose_name='email address',
                               unique=True,
@@ -121,7 +122,6 @@ class Publisher(models.Model):
                                 related_name='publisher_profile')
     publishing_house = models.ForeignKey(PublishingHouse,
                                          on_delete=models.CASCADE,
-                                         blank=True,
                                          related_name='publishing')
 
 
