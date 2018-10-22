@@ -3,7 +3,8 @@ from django.core.management import call_command
 from django.test import TestCase
 from django.urls import reverse, resolve
 
-from mylib.models import Book, Author, User, Invitation
+from mylib.forms import CommentForm
+from mylib.models import Book, Author, User, Invitation, Comment
 from mylib.views import BookListView, BookDetailView, AuthorDetailView
 
 
@@ -23,7 +24,7 @@ class BookListTest(TestCase):
         self.assertEquals(view.func.view_class, BookListView)
 
 
-class BookDetailTest(TestCase):
+class BookDetailTestCase(TestCase):
     def setUp(self):
         call_command('loaddata',
                      'country.json',
@@ -31,10 +32,18 @@ class BookDetailTest(TestCase):
                      'PublishingHouse.json',
                      'author.json',
                      'book.json',
+                     'user.json',
                      'm2m.json')
         self.book = Book.objects.get(id=1)
-        url = reverse('book_info', kwargs={'pk': 1})
-        self.response = self.client.get(url)
+        self.user = User.objects.get(username='test_reader')
+        self.url = reverse('book_info', kwargs={'pk': 1})
+
+
+class BookDetailTest(BookDetailTestCase):
+    def setUp(self):
+        super().setUp()
+        self.client.force_login(self.user)
+        self.response = self.client.get(self.url)
 
     def test_book_detail_view_status_code(self):
         self.assertEquals(self.response.status_code, 200)
@@ -50,6 +59,39 @@ class BookDetailTest(TestCase):
         url = reverse('book_info', kwargs={'pk': 99999})
         response = self.client.get(url)
         self.assertEquals(response.status_code, 404)
+
+    def test_comments_form_contain(self):
+        form = self.response.context.get('form')
+        self.assertIsInstance(form, CommentForm)
+
+    def test_template_show_comment_form_for_auth_user(self):
+        self.assertContains(self.response, '<form ', 1)
+
+    # def test_template_doesnt_show_comment_form_for_not_auth_user(self):
+    #     self.assertNotContains(self.response, 'class="comment-form"')
+
+
+class CommentTest(TestCase):
+    def setUp(self):
+        call_command('loaddata',
+                     'country.json',
+                     'genre.json',
+                     'PublishingHouse.json',
+                     'author.json',
+                     'book.json',
+                     'm2m.json',
+                     'user.json')
+        self.user = User.objects.get(username='test_reader')
+        self.book = Book.objects.get(id=1)
+        self.url = reverse('book_info', kwargs={'pk': 1})
+
+    def test_comment_create_for_auth_user(self):
+        self.client.force_login(self.user)
+        data = {
+            'text': 'test comment',
+        }
+        self.client.post(self.url, data)
+        self.assertTrue(Comment.objects.filter(text='test comment').exists())
 
 
 class AuthorDetailTest(TestCase):

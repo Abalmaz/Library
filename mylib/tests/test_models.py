@@ -188,3 +188,5 @@ class InvitationModelTest(TestCase):
         day = timezone.now() + timedelta(hours=-25)
         self.inv.created_at = day
         self.assertFalse(self.inv.is_valid())
+
+
