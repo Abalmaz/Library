@@ -50,6 +50,7 @@ class BookCreateTest(BookCreateTestCase):
         self.assertContains(self.response, 'csrfmiddlewaretoken')
 
     def test_book_create_valid_post_data(self):
+        self.assertFalse(Book.objects.filter(title='Test book').exists())
         authors = [Author.objects.get(pk=1).pk]
         genres = [Genre.objects.get(pk=1).pk]
         data = {

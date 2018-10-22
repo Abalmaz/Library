@@ -1,8 +1,9 @@
 from django.test import TestCase
 from django.urls import reverse, resolve
-from gunicorn.config import User
+
 
 from mylib.forms import SignUpForm
+from mylib.models import User
 from mylib.views import SignUpView
 
 

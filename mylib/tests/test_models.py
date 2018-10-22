@@ -39,22 +39,26 @@ class AuthorModelTest(TestCase):
                                                   self.author.middle_name)
         self.assertEquals(expected_object_name, self.author.full_name)
 
-    def test_short_name(self):
-        if self.author.pseudonym:
-            expected_object_name = '{}'.format(self.author.pseudonym)
-        elif self.middle_name:
-            expected_object_name = '{} {}. {}.'.format(
-                self.second_name,
-                self.first_name[0].capitalize(),
-                self.middle_name[0].capitalize()
-            )
-        else:
-            expected_object_name = '{} {}.'.format(
-                self.second_name,
-                self.first_name[0].capitalize()
-            )
-
+    def test_short_name_has_pseudonym(self):
+        expected_object_name = '{}'.format(self.author.pseudonym)
         self.assertEquals(expected_object_name, self.author.short_name)
+
+    def test_short_name_has_middle_name(self):
+        author = Author.objects.get(id=4)
+        expected_object_name = '{} {}. {}.'.format(
+            author.second_name,
+            author.first_name[0].capitalize(),
+            author.middle_name[0].capitalize()
+        )
+        self.assertEquals(expected_object_name, author.short_name)
+
+    def test_short_name_dont_has_middle_name(self):
+        author = Author.objects.get(id=7)
+        expected_object_name = '{} {}.'.format(
+            author.second_name,
+            author.first_name[0].capitalize()
+        )
+        self.assertEquals(expected_object_name, author.short_name)
 
 
 class BookModelTest(TestCase):

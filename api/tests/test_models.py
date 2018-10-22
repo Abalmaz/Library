@@ -28,7 +28,7 @@ class TestAuthorModel(TestCase):
                      'author.json',
                      'book.json',
                      'm2m.json')
-        self.book = Author.objects.get(id=1)
+        self.author = Author.objects.get(id=1)
 
     def test_author_object_name(self):
         self.assertEqual(self.author.second_name, str(self.author))

@@ -37,6 +37,12 @@ class TestBookView(APITestCase):
                                    format="json")
         self.assertEqual(response.data["title"], book.title)
 
+    def test_book_detail_not_found(self):
+        response = self.client.get(reverse('book-detail',
+                                           kwargs={'pk': 99999}),
+                                   format="json")
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND, )
+
 
 class TestAuthorView(APITestCase):
     def setUp(self):
@@ -62,3 +68,9 @@ class TestAuthorView(APITestCase):
                                            kwargs={'pk': 1}),
                                    format="json")
         self.assertEqual(response.data["second_name"], author.second_name)
+
+    def test_author_detail_not_found(self):
+        response = self.client.get(reverse('author-detail',
+                                           kwargs={'pk': 99999}),
+                                   format="json")
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND, )

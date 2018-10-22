@@ -18,8 +18,7 @@ class BookDeleteTestCase(TestCase):
                      'book.json',
                      'm2m.json')
         self.user = User.objects.get(username="test_publisher")
-        self.book = self.user.publisher_profile.publishing_house.book_set.all()[
-                    0]
+        self.book = self.user.publisher_profile.publishing_house.book_set.first()
         self.url = reverse('book_delete', kwargs={'pk': self.book.pk})
 
 
