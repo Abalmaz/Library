@@ -2,3 +2,6 @@
 {{ object.description}}
 {{ object.authors }}
 {{ object.year }}
+{% for genre in object.genre.all %}
+    {{  genre.name  }}
+{% endfor %}

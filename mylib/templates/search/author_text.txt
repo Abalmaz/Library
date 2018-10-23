@@ -2,5 +2,7 @@
 {{ object.first_name }}
 {{ object.second_name }}
 {{ object.middle_name }}
-{{ object.genre }}
+{% for genre in object.genre.all %}
+    {{  genre.name  }}
+{% endfor %}
 {{ object.biography }}
