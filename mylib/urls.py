@@ -1,5 +1,6 @@
 from django.urls import path
 from django.contrib.auth import views as auth_views
+from haystack.forms import HighlightedModelSearchForm, HighlightedSearchForm
 from haystack.views import SearchView
 
 from . import views
@@ -41,5 +42,5 @@ urlpatterns = [
     path('profile/books/', views.BookCreateView.as_view(), name='book_add'),
     path('profile/books/<int:pk>/delete/', views.BookDeleteView.as_view(),
          name='book_delete'),
-    path('search/', SearchView(), name='search'),
+    path('search/', SearchView(form_class=HighlightedModelSearchForm), name='search'),
 ]

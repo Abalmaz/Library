@@ -1,17 +1,11 @@
 {% extends 'mylib/base.html' %}
-
+{% load highlight %}
+{% load static %}
+{% block stylesheet %}
+    <link rel="stylesheet" href="{% static 'mylib/style.css' %}">
+{% endblock %}
 {% block content %}
     <br>
-    <!--<form action="/search" method="get">-->
-        <!--<input name="q" id="id_q" value="" type="text" />-->
-        <!--<div id="id_models">-->
-            <!--<label for="id_models_0"><input type="checkbox" name="models" value="mylib.author" id="id_models_0">-->
-                <!--Authors</label>-->
-            <!--<label for="id_models_1"><input type="checkbox" name="models" value="mylib.book" id="id_models_1">-->
-                <!--Books</label>-->
-        <!--</div>-->
-        <!--<input type="submit" value="Search"/>-->
-    <!--</form>-->
     <form method="get" action=".">
         <table>
             {{ form.as_table }}
@@ -33,8 +27,13 @@
                 {% endifequal %}
                    <a href="{{ result.object.get_absolute_url }}">{{ result.object }}</a>
                 </p>
+                   {% for text in result.highlighted.text  %}
+                        <blockquote>{% highlight text with query css_class "highlighted"%}</blockquote>
+                    {% endfor %}
             {% empty %}
                 <p>No results found.</p>
+
             {% endfor %}
+
         {% endif %}
 {% endblock %}

@@ -20,3 +20,6 @@ a:hover {
 .text {
     font-size: 14px;
 }
+.highlighted {
+   background-color: yellow;
+}
