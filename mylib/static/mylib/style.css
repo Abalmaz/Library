@@ -23,3 +23,6 @@ a:hover {
 .highlighted {
    background-color: yellow;
 }
+blockquote {
+    font-size: 0.80em;
+}

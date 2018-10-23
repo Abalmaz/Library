@@ -16,7 +16,7 @@
             </tr>
         </table>
     </form>
-<br>
+    <br>
      {% if query %}
             {% for result in page.object_list %}
                 <p>
@@ -28,7 +28,7 @@
                    <a href="{{ result.object.get_absolute_url }}">{{ result.object }}</a>
                 </p>
                    {% for text in result.highlighted.text  %}
-                        <blockquote>{% highlight text with query css_class "highlighted"%}</blockquote>
+                        <blockquote>{% highlight text with query css_class "highlighted" %}</blockquote>
                     {% endfor %}
             {% empty %}
                 <p>No results found.</p>

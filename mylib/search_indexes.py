@@ -1,5 +1,3 @@
-import datetime
-
 from haystack import indexes
 from mylib.models import Author, Book
 

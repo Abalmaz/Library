@@ -1,6 +1,6 @@
 from django.urls import path
 from django.contrib.auth import views as auth_views
-from haystack.forms import HighlightedModelSearchForm, HighlightedSearchForm
+from haystack.forms import HighlightedModelSearchForm
 from haystack.views import SearchView
 
 from . import views
