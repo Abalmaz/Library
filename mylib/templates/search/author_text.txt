@@ -1,0 +1,6 @@
+{{ object.pseudonym }}
+{{ object.first_name }}
+{{ object.second_name }}
+{{ object.middle_name }}
+{{ object.genre }}
+{{ object.biography }}

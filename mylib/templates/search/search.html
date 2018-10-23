@@ -1,0 +1,40 @@
+{% extends 'mylib/base.html' %}
+
+{% block content %}
+    <br>
+    <!--<form action="/search" method="get">-->
+        <!--<input name="q" id="id_q" value="" type="text" />-->
+        <!--<div id="id_models">-->
+            <!--<label for="id_models_0"><input type="checkbox" name="models" value="mylib.author" id="id_models_0">-->
+                <!--Authors</label>-->
+            <!--<label for="id_models_1"><input type="checkbox" name="models" value="mylib.book" id="id_models_1">-->
+                <!--Books</label>-->
+        <!--</div>-->
+        <!--<input type="submit" value="Search"/>-->
+    <!--</form>-->
+    <form method="get" action=".">
+        <table>
+            {{ form.as_table }}
+            <tr>
+                <td>
+                    <input type="submit" value="Search">
+                </td>
+            </tr>
+        </table>
+    </form>
+<br>
+     {% if query %}
+            {% for result in page.object_list %}
+                <p>
+                {% ifequal result.model_name 'book' %}
+                    Book:
+                 {% else %}
+                    Author:
+                {% endifequal %}
+                   <a href="{{ result.object.get_absolute_url }}">{{ result.object }}</a>
+                </p>
+            {% empty %}
+                <p>No results found.</p>
+            {% endfor %}
+        {% endif %}
+{% endblock %}

@@ -50,9 +50,6 @@ class Author(Timestamp):
     genre = models.ManyToManyField(Genre)
     photo = models.ImageField(blank=True, null=True, upload_to='author_photo/')
 
-    def __str__(self):
-        return self.second_name
-
     @property
     def full_name(self):
         return '%s %s %s' % (self.second_name,
@@ -70,6 +67,12 @@ class Author(Timestamp):
         else:
             return '{} {}.'.format(self.second_name,
                                    self.first_name[0].capitalize())
+
+    def __str__(self):
+        return self.short_name
+
+    def get_absolute_url(self):
+        return reverse('author_info', kwargs={'pk': self.pk})
 
     class Meta:
         ordering = ('second_name',)
