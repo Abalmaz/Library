@@ -47,10 +47,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'django.contrib.humanize',
-    'mylib',
+
+    'haystack',   # library for search
+    'mylib',  # my app
     'star_ratings',
     'django_filters',
-    'mptt',
+    'mptt',  # for tree comments
 
     'rest_framework',
     'rest_framework.authtoken',
@@ -300,3 +302,9 @@ DATABASES['default'].update(db_from_env)
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE': 'haystack.backends.whoosh_backend.WhooshEngine',
+        'PATH': os.path.join(os.path.dirname(__file__), 'whoosh_index'),
+    },
+}

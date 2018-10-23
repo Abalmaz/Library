@@ -20,4 +20,7 @@ social-auth-core==1.7.0
 swapper==1.1.0
 whitenoise==4.1
 redis==2.10.6
+django-haystack==2.8.1
+Whoosh==2.7.4
+
 
