@@ -12,6 +12,7 @@ from celery import shared_task
 def send_new_book():
     """
     The task which sends emails to users with new books.
+
     """
     context = {}
     last_week = timezone.now() - timedelta(days=7)
