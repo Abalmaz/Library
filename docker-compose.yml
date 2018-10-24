@@ -3,6 +3,10 @@ version: '3'
 services:
   db:
     image: postgres
+  elasticsearch:
+    image: "elasticsearch:2.4.1"
+    ports:
+    - "9200:9200"
   web:
     build:
       context: .
@@ -13,7 +17,7 @@ services:
     - "8000:8000"
     depends_on:
     - db
-    - redis
+    - elasticsearch
     entrypoint: ./docker-entrypoint.sh
   redis:
     image: "redis:alpine"
@@ -29,9 +33,4 @@ services:
     depends_on:
     - web
     - redis
-
-  elasticsearch:
-    image: "elasticsearch:2.4.1"
-    ports:
-      - "9200:9200"
 
