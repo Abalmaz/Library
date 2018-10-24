@@ -30,3 +30,8 @@ services:
     - web
     - redis
 
+  elasticsearch:
+    image: "elasticsearch:2.4.1"
+    ports:
+      - "9200:9200"
+
