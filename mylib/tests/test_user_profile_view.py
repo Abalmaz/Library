@@ -75,7 +75,7 @@ class InvalidUserUpdateTest(UserProfileTestBase):
     def setUp(self):
         super().setUp()
         self.response = self.client.post(self.url, {
-            'first_name': 'Foo'*100
+            'first_name': 'Foo' * 100
         })
 
     def test_status_code(self):

@@ -1,4 +1,4 @@
-from .models import User, Invitation, Publisher
+from .models import User, Invitation
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 

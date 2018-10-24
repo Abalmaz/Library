@@ -6,8 +6,8 @@ from django.core.management import call_command
 from django.test import TestCase
 from django.utils import timezone
 
-from mylib.models import Author, Book, Country, Genre, PublishingHouse, \
-                         User, Invitation
+from mylib.models import Author, Book, Country, Genre,\
+    PublishingHouse, User, Invitation
 
 
 class AuthorModelTest(TestCase):
@@ -192,5 +192,3 @@ class InvitationModelTest(TestCase):
         day = timezone.now() + timedelta(hours=-25)
         self.inv.created_at = day
         self.assertFalse(self.inv.is_valid())
-
-

@@ -155,10 +155,3 @@ class InvitationTest(TestCase):
     def test_signup_view_uses_correct_template(self):
         self.assertTemplateUsed(self.response,
                                 'registration/invitation.html')
-
-
-
-
-
-
-

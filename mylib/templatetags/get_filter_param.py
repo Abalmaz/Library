@@ -9,5 +9,6 @@ def get_param(context):
     request = context['request']
     for key, v in request.GET.items():
         value_list = request.GET.getlist(key)
-        get_param.extend(['%s=%s' % (key, val) for val in value_list if key != 'page' and key != 'order_by'])
+        get_param.extend(['%s=%s' % (key, val) for val in value_list
+                          if key != 'page' and key != 'order_by'])
     return '&'.join(get_param)

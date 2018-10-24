@@ -18,7 +18,8 @@ class BookDeleteTestCase(TestCase):
                      'book.json',
                      'm2m.json')
         self.user = User.objects.get(username="test_publisher")
-        self.book = self.user.publisher_profile.publishing_house.book_set.first()
+        self.book = self.user.publisher_profile.publishing_house.\
+            book_set.first()
         self.url = reverse('book_delete', kwargs={'pk': self.book.pk})
 
 
@@ -70,4 +71,3 @@ class NotOwnerBookDeleteTest(BookDeleteTestCase):
 
     def test_book_delete_status_code(self):
         self.assertEquals(self.response.status_code, 403)
-

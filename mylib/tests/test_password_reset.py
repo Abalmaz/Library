@@ -57,7 +57,8 @@ class SuccessfulPasswordResetTest(TestCase):
 class InvalidPasswordReset(TestCase):
     def setUp(self):
         url = reverse('password_reset')
-        self.response = self.client.post(url, {'email': 'invalidmail@mail.com'})
+        self.response = self.client.post(url,
+                                         {'email': 'invalidmail@mail.com'})
 
     def test_redirection(self):
         url = reverse('password_reset_done')
@@ -93,7 +94,7 @@ class PasswordResetMailTest(TestCase):
         self.assertIn('test@mail.com', self.out_email.body)
 
     def test_email_to(self):
-        self.assertEqual(['test@mail.com',], self.out_email.to)
+        self.assertEqual(['test@mail.com', ], self.out_email.to)
 
 
 class PasswordResetDone(TestCase):

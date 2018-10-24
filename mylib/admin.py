@@ -77,7 +77,10 @@ class UserAdmin(BaseUserAdmin):
     fieldsets = (
         (None, {'fields': ('username', 'email', 'password')}),
         ('Personal info', {'fields': ('middle_name', 'birth_date',)}),
-        ('Permissions', {'fields': ('is_reader', 'is_publisher', 'is_staff',)}),
+        ('Permissions', {'fields': (
+            'is_reader',
+            'is_publisher',
+            'is_staff',)}),
     )
     # add_fieldsets is not a standard ModelAdmin attribute. UserAdmin
     # overrides get_fieldsets to use this attribute when creating a user.
@@ -86,8 +89,7 @@ class UserAdmin(BaseUserAdmin):
             'classes': ('wide',),
             'fields': ('username', 'email',
                        'password1', 'password2',
-                       'is_reader', 'is_publisher', 'is_staff')}
-        ),
+                       'is_reader', 'is_publisher', 'is_staff')}),
     )
     search_fields = ('email',)
     ordering = ('email',)
@@ -123,4 +125,3 @@ admin.site.register(Author)
 admin.site.register(PublishingHouse)
 admin.site.register(Genre)
 admin.site.register(Country)
-

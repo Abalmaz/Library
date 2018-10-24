@@ -115,7 +115,8 @@ class User(AbstractUser):
     email = models.EmailField(verbose_name='email address',
                               unique=True,
                               error_messages={
-                              'unique': "A user with that email already exists",
+                                  'unique': "A user with that email already "
+                                            "exists",
                               })
 
 
@@ -154,7 +155,7 @@ class Invitation(Timestamp):
 
     def is_valid(self):
         now = timezone.now()
-        if (now-self.created_at).days >= settings.INVITATIONS_LIFETIME:
+        if (now - self.created_at).days >= settings.INVITATIONS_LIFETIME:
             return False
         return True
 
@@ -167,4 +168,3 @@ class Comment(Timestamp, MPTTModel):
     parent = TreeForeignKey('self', on_delete=models.CASCADE,
                             null=True, blank=True,
                             related_name='children')
-
