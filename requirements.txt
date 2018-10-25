@@ -23,3 +23,4 @@ redis==2.10.6
 django-haystack==2.8.1
 elasticsearch==2.4.1
 django-debug-toolbar==1.10.1
+django-redis==4.9.0

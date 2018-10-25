@@ -26,10 +26,10 @@
                     Author:
                 {% endifequal %}
                    <a href="{{ result.object.get_absolute_url }}">{{ result.object }}</a>
-                </p>
-                   {% for text in result.highlighted.text  %}
-                        <blockquote>{% highlight text with query css_class "highlighted" %}</blockquote>
+                    {% for text in result.highlighted %}
+                        <blockquote>{% highlight text with query %}</blockquote>
                     {% endfor %}
+                </p>
             {% empty %}
                 <p>No results found.</p>
 

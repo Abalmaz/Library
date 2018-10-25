@@ -4,6 +4,9 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.shortcuts import redirect, get_object_or_404, render
 from django.contrib.auth import login
+from django.core.cache import cache
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
 
 from .mixins import PublisherRequiredMixin, OwnerRequiredMixin
 from .filters import BookFilter
@@ -19,15 +22,40 @@ class AuthorDetailView(DetailView):
     queryset = Author.objects.all()
 
 
+@method_decorator(cache_page(60 * 5), name='dispatch')
 class BookDetailView(DetailView):
     context_object_name = 'book'
     queryset = Book.objects.all()
 
     def get_context_data(self, **kwargs):
+        # book = self.get_book()
+        # comments = self.get_comments(book)
         ctx = super().get_context_data(**kwargs)
+        # ctx['book'] = book
         ctx['comments'] = self.get_object().comments.all()
         ctx['form'] = CommentForm()
         return ctx
+
+    # def get_book(self, *args, **kwargs):
+    #     pk = self.kwargs.get(self.pk_url_kwarg)
+    #     cache_key = "book_detail_{}".format(pk)
+    #     book = cache.get(cache_key)
+    #     if not book:
+    #         book = Book.objects.get(pk=pk)
+    #         cache.set(
+    #             cache_key, book
+    #         )
+    #     return book
+    #
+    # def get_comments(self, book):
+    #     cache_key = "post_detail_{}_comments".format(book.pk)
+    #     comments = cache.get(cache_key)
+    #     if not comments:
+    #         comments = book.comments.all()
+    #         cache.set(
+    #             cache_key, comments
+    #         )
+    #     return comments
 
     def post(self, request, **kwargs):
         form = CommentForm(request.POST)
