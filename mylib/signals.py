@@ -15,7 +15,7 @@ def create_auth_token(sender, instance=None, created=False, **kwargs):
 
 # @receiver(post_save, sender=Book)
 # def book_post_save_handler(sender, **kwargs):
-#     cache.delete()
+#     cache.clear()
 
 
 # @receiver(post_save, sender=User)

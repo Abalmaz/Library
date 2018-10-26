@@ -29,9 +29,9 @@ SECRET_KEY = os.environ.get(
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
-DEBUG = os.environ.get('DEBUG', True)
+# DEBUG = os.environ.get('DEBUG', True)
 
-# DEBUG = True
+DEBUG = True
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'calm-peak-45540.herokuapp.com',
                  '172.16.100.205']
@@ -107,26 +107,26 @@ WSGI_APPLICATION = 'library.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'postgres',
-#         'USER': 'postgres',
-#         'HOST': 'db',
-#         'PORT': '5432',
-#     }
-# }
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'library',
-        'USER': 'lib_user',
-        'PASSWORD': 'lib_user',
-        'HOST': 'localhost',
+        'NAME': 'postgres',
+        'USER': 'postgres',
+        'HOST': 'db',
         'PORT': '5432',
     }
 }
+#
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'library',
+#         'USER': 'lib_user',
+#         'PASSWORD': 'lib_user',
+#         'HOST': 'localhost',
+#         'PORT': '5432',
+#     }
+# }
 
 # DATABASES = {
 #     'default': {
@@ -296,45 +296,49 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 HAYSTACK_CONNECTIONS = {
     'default': {
         'ENGINE': 'haystack.backends.elasticsearch_backend.ElasticsearchSearchEngine',
-        # 'URL': 'http://elasticsearch:9200/',
-        'URL': 'http://127.0.0.1:9200/',
+        'URL': 'http://elasticsearch:9200/',
+        # 'URL': 'http://127.0.0.1:9200/',
         'INDEX_NAME': 'haystack',
     },
 }
 
-if DEBUG:
-   INTERNAL_IPS = ('127.0.0.1', 'localhost',)
-   MIDDLEWARE += (
-       'debug_toolbar.middleware.DebugToolbarMiddleware',
-   )
+import socket
+hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())
 
-   INSTALLED_APPS += (
-       'debug_toolbar',
-   )
+INTERNAL_IPS = [ip[:-1] + '1' for ip in ips] + ['127.0.0.1', 'localhost']
+MIDDLEWARE += (
+   'conf.middleware.DjangoDebugToolbarFix',
+   'debug_toolbar.middleware.DebugToolbarMiddleware',
+)
 
-   DEBUG_TOOLBAR_PANELS = [
-       'debug_toolbar.panels.versions.VersionsPanel',
-       'debug_toolbar.panels.timer.TimerPanel',
-       'debug_toolbar.panels.settings.SettingsPanel',
-       'debug_toolbar.panels.headers.HeadersPanel',
-       'debug_toolbar.panels.request.RequestPanel',
-       'debug_toolbar.panels.sql.SQLPanel',
-       'debug_toolbar.panels.staticfiles.StaticFilesPanel',
-       'debug_toolbar.panels.templates.TemplatesPanel',
-       'debug_toolbar.panels.cache.CachePanel',
-       'debug_toolbar.panels.signals.SignalsPanel',
-       'debug_toolbar.panels.logging.LoggingPanel',
-       'debug_toolbar.panels.redirects.RedirectsPanel',
-   ]
+INSTALLED_APPS += (
+   'debug_toolbar',
+)
 
-   DEBUG_TOOLBAR_CONFIG = {
-       'INTERCEPT_REDIRECTS': False,
-   }
+DEBUG_TOOLBAR_PANELS = [
+   'debug_toolbar.panels.versions.VersionsPanel',
+   'debug_toolbar.panels.timer.TimerPanel',
+   'debug_toolbar.panels.settings.SettingsPanel',
+   'debug_toolbar.panels.headers.HeadersPanel',
+   'debug_toolbar.panels.request.RequestPanel',
+   'debug_toolbar.panels.sql.SQLPanel',
+   'debug_toolbar.panels.staticfiles.StaticFilesPanel',
+   'debug_toolbar.panels.templates.TemplatesPanel',
+   'debug_toolbar.panels.cache.CachePanel',
+   'debug_toolbar.panels.signals.SignalsPanel',
+   'debug_toolbar.panels.logging.LoggingPanel',
+   'debug_toolbar.panels.redirects.RedirectsPanel',
+]
+
+DEBUG_TOOLBAR_CONFIG = {
+   'INTERCEPT_REDIRECTS': False,
+   'SHOW_TOOLBAR_CALLBACK': 'mylib.utils.show_toolbar'
+}
 
 CACHES = {
     'default': {
         'BACKEND': 'django_redis.cache.RedisCache',
-        'LOCATION': 'redis://127.0.0.1:6379/1',
+        'LOCATION': 'redis://redis:6379/1',
         'OPTIONS': {
             'CLIENT_CLASS': 'django_redis.client.DefaultClient',
         },
