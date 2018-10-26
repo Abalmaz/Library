@@ -1,3 +1,4 @@
+
 FROM python:3.5
 
 ENV PYTHONDONTWRITEBYTECODE 1
@@ -10,7 +11,6 @@ RUN pip install -r requirements.txt
 COPY docker-entrypoint.sh /app/
 RUN chmod +x docker-entrypoint.sh
 ADD . /app
-
 
 
 
