@@ -23,4 +23,4 @@ def book_post_save_handler(sender, instance=None, **kwargs):
 #         if created:
 #             Publisher.objects.get_or_create(user=instance)
 #         else:
-#             instance.publisher_profile.save()
+#             instance.publishger_profile.save()
