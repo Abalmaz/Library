@@ -1,7 +1,5 @@
 from django.contrib.auth.forms import SetPasswordForm
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.utils.cache import learn_cache_key
-
 
 from django.urls import reverse_lazy
 from django.shortcuts import redirect, get_object_or_404, render
@@ -32,6 +30,7 @@ class BookDetailView(DetailView):
         ctx = super().get_context_data(**kwargs)
         ctx['comments'] = self.get_object().comments.all()
         ctx['form'] = CommentForm()
+
         return ctx
 
     def post(self, request, **kwargs):

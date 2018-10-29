@@ -1,5 +1,4 @@
-from django.core.cache import cache
-
+from mylib.utils import invalidate_cache
 from .models import User, Invitation, Book
 from django.db.models.signals import post_save
 from django.dispatch import receiver
@@ -13,9 +12,9 @@ def create_auth_token(sender, instance=None, created=False, **kwargs):
             inv.send()
 
 
-# @receiver(post_save, sender=Book)
-# def book_post_save_handler(sender, **kwargs):
-#     cache.clear()
+@receiver(post_save, sender=Book)
+def book_post_save_handler(sender, instance=None, **kwargs):
+    invalidate_cache(instance.get_absolute_url())
 
 
 # @receiver(post_save, sender=User)
