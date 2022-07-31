@@ -13,7 +13,7 @@ pipeline {
         stage("increment version"){
                     steps{
                         script{
-                            env.IMAGE_NAME=GIT_COMMIT.substring(0, 5)
+                            env.IMAGE_NAME=GIT_COMMIT.substring(0, 8)
                             echo "increment app version..."
                             echo "$IMAGE_NAME-$BUILD_NUMBER"
                         }
