@@ -15,7 +15,7 @@ pipeline {
                         script{
                             GIT_HUSH=GIT_COMMIT.substring(0, 8)
                             echo "increment app version..."
-                            env.IMAGE_NAME=GIT_HUSH-BUILD_NUMBER
+                            env.IMAGE_NAME="$GIT_HUSH-$BUILD_NUMBER"
                             echo "$IMAGE_NAME"
                         }
                     }
