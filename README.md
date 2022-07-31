@@ -9,5 +9,5 @@
   * python manage.py migrate
 4. Load data to DB:
   * load_db.sh
-5. 
+5. testr
 
