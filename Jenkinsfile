@@ -10,6 +10,14 @@ pipeline {
                 }
             }
         }
+        stage("increment version"){
+                    steps{
+                        script{
+                            echo "increment app version..."
+                            echo "$GIT_COMMIT-$BUILD_NUMBER"
+                        }
+                    }
+                }
         stage("test") {
             steps {
                 script {
