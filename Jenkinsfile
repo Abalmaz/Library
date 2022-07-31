@@ -14,8 +14,7 @@ pipeline {
                     steps{
                         script{
                             echo "increment app version..."
-                            HASH_COMMIT=${GIT_COMMIT:0:8}
-                            echo "${HASH_COMMIT}-${BUILD_NUMBER}"
+                            echo "$GIT_COMMIT.take(6)-$BUILD_NUMBER"
                         }
                     }
                 }
