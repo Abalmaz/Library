@@ -5,5 +5,5 @@ export DOCKER_USER=$2
 export DOCKER_PASS=$3
 
 echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
-docker-compose -f docker-compose.yaml up --detach
+docker-compose -f docker-compose.yml up --detach
 echo "success"
