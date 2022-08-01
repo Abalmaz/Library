@@ -1,4 +1,4 @@
-FROM python:3.5
+FROM python:3.6
 
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
@@ -6,17 +6,7 @@ ENV PYTHONUNBUFFERED 1
 RUN mkdir /app
 WORKDIR /app
 COPY requirements.txt docker-entrypoint.sh /app/
-RUN pip install --upgrade pip && pip install -r requirements.txt
-RUN chmod +x /app/docker-entrypoint.sh
+RUN pip install --upgrade pip && pip install psycopg2-binary && pip install -r requirements.txt
 ADD . /app
-ENTRYPOINT  ["/app/docker-entrypoint.sh"]
+ENTRYPOINT  ["sh", "/app/docker-entrypoint.sh"]
 EXPOSE 8000
-
-
-
-
-
-
-
-
-
