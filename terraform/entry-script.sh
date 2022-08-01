@@ -5,6 +5,7 @@ sudo yum update -y
 sudo amazon-linux-extras install docker
 sudo groupadd docker
 sudo usermod -aG docker $USER
+sudo chmod 666 /var/run/docker.sock
 sudo systemctl start docker
 
 # Install docker-compose
