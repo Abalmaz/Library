@@ -4,12 +4,10 @@ services:
   db:
     image: postgres
   web:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: ${IMAGE}
     command: bash -c "python manage.py runserver 0.0.0.0:8000"
     volumes:
-    - .:/app
+      - .:/app
     ports:
     - "8000:8000"
     depends_on:
@@ -20,9 +18,7 @@ services:
     ports:
       - "6379:6379"
   celery:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: ${IMAGE}
     command: celery -A library worker -B -l info
     volumes:
     - .:/app
