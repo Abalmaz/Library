@@ -28,11 +28,3 @@ services:
     image: "redis:alpine"
     ports:
       - "6379:6379"
-  celery:
-    image: ${IMAGE}
-    command: celery -A library worker -B -l info
-    volumes:
-      - .:/app
-    depends_on:
-      - web
-      - redis
