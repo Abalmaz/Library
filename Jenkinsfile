@@ -3,7 +3,8 @@ def gv
 pipeline {
     agent any
     environment {
-        IMAGE_NAME="abalmaz/library:$GIT_COMMIT.substring(0, 8)-$BUILD_NUMBER"
+        HUSH_COMMIT = GIT_COMMIT.substring(0, 8)
+        IMAGE_NAME="abalmaz/library:$HUSH_COMMIT-$BUILD_NUMBER"
     }
     stages {
         stage("init"){
