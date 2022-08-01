@@ -5,8 +5,8 @@ ENV PYTHONUNBUFFERED 1
 
 RUN mkdir /app
 WORKDIR /app
-ADD requirements.txt docker-entrypoint.sh /app/
-RUN pip install -r requirements.txt && sudo chmod +x docker-entrypoint.sh
+COPY requirements.txt docker-entrypoint.sh /app/
+RUN pip install --upgrade pip && pip install -r requirements.txt && sudo chmod +x docker-entrypoint.sh
 ADD . /app
 
 # start server
