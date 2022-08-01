@@ -2,6 +2,7 @@
 /.idea
 db.sqlite3
 __pycache__/
+*/whoosh_index/
 *.pyc
 
 # Terraform part
