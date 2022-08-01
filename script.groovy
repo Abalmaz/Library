@@ -18,7 +18,7 @@ def dockerPush(String imageName){
 }
 
 def buildImage(){
-    clearImage()
+//     clearImage()
     dockerLogin()
     dockerBuild(IMAGE_NAME)
     dockerPush(IMAGE_NAME)
