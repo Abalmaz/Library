@@ -22,4 +22,6 @@ variable "instance_type" {
 variable "image_name" {
   default = "amzn2-ami-hvm-*-x86_64-gp2"
 }
-variable "jenkins_ip" {}
+variable "jenkins_ip" {
+  default = "34.170.207.108/32"
+}

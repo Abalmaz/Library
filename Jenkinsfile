@@ -3,8 +3,8 @@ def gv
 pipeline {
     agent any
     environment {
-        HUSH_COMMIT = GIT_COMMIT.substring(0, 8)
-        IMAGE_NAME="abalmaz/library:$HUSH_COMMIT-$BUILD_NUMBER"
+        HASH_COMMIT = GIT_COMMIT.substring(0, 8)
+        IMAGE_NAME="abalmaz/library:$HASH_COMMIT-$BUILD_NUMBER"
     }
     stages {
         stage("init"){
@@ -26,18 +26,11 @@ pipeline {
                 }
             }
         }
-        stage("build image") {
+        stage("Build and push image") {
             steps {
                 script {
                     gv.buildImage()
-                }
-            }
-        }
-
-        stage("test") {
-            steps {
-                script {
-                    echo "Run some test..."
+                    gv.pushImage()
                 }
             }
         }
