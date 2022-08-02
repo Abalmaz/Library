@@ -18,7 +18,7 @@ resource "aws_vpc" "mylib-vpc" {
 }
 
 module "mylib-subnet" {
-  source                 = "modules/subnet"
+  source                 = "./modules/subnet"
   avail_zone             = var.avail_zone
   default_route_table_id = aws_vpc.mylib-vpc.default_route_table_id
   env_pref               = var.env_pref
@@ -27,7 +27,7 @@ module "mylib-subnet" {
 }
 
 module "mylib-server" {
-  source        = "modules/webserver"
+  source        = "./modules/webserver"
   avail_zone    = var.avail_zone
   env_pref      = var.env_pref
   image_name    = var.image_name
