@@ -1,3 +1,11 @@
+terraform {
+  backend "s3" {
+    bucket = "mylib-bucket"
+    key = "library/state.tfstate"
+    region = "eu-west-3"
+  }
+}
+
 provider "aws" {
   region = var.region
 }
