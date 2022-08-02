@@ -14,6 +14,25 @@ pipeline {
                 }
             }
         }
+    stage("provision server"){
+                environment {
+                    AWS_ACCESS_KEY_ID = credentials('jenkins_aws_access_key_id')
+                    AWS_SECRET_ACCESS_KEY = credentials('jenkins_aws_secret_access_key')
+                    TF_VAR_jenkins_ip = "34.170.207.108/32"
+                }
+                steps {
+                    script {
+                        dir('terraform') {
+                            sh "terraform init"
+                            sh "terraform apply --auto-approve"
+                            EC2_PUBLIC_IP = sh(
+                                script: "terraform output ec2_public_ip",
+                                returnStdout: true
+                            ).trim()
+                        }
+                    }
+                }
+            }
         stage("build image") {
                     steps {
                         script {
@@ -28,34 +47,12 @@ pipeline {
                 }
             }
         }
-        stage("provision server"){
-            environment {
-                AWS_ACCESS_KEY_ID = credentials('jenkins_aws_access_key_id')
-                AWS_SECRET_ACCESS_KEY = credentials('jenkins_aws_secret_access_key')
-                TF_VAR_jenkins_ip = "34.170.207.108/32"
-            }
-            steps {
-                script {
-                    dir('terraform') {
-                        sh "terraform init"
-                        sh "terraform apply --auto-approve"
-                        EC2_PUBLIC_IP = sh(
-                            script: "terraform output ec2_public_ip",
-                            returnStdout: true
-                        ).trim()
-                    }
-                }
-            }
-        }
         stage("deploy") {
             environment {
                 DOCKER_CREDS = credentials('docker-hub')
             }
             steps {
                 script {
-                    echo "Waiting for EC2 server checking..."
-                    sleep(time: 90, unit: "SECONDS")
-
                     echo "deploying docker image to EC2..."
 
                     def shellCmd = "bash ./server-cmds.sh ${IMAGE_NAME} ${DOCKER_CREDS_USR} ${DOCKER_CREDS_PSW}"
