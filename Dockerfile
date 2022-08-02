@@ -10,4 +10,4 @@ RUN pip install -r requirements.txt
 ADD . /app
 ENTRYPOINT  ["sh", "/app/docker-entrypoint.sh"]
 EXPOSE 8000
-LABEL maintainer="Yana Abalmaz"
+LABEL maintainer="abalmaz"

@@ -2,7 +2,7 @@ def buildImage(){
     echo "building..."
     withCredentials([usernamePassword(credentialsId: 'docker-hub', passwordVariable: 'PASS', usernameVariable: 'USER')])
     {
-        sh "docker image prune -a --force --filter 'label=maintainer=*Abalmaz' "
+        sh 'docker image prune -a --force --filter "label=maintainer=abalmaz"'
         echo "Build the Docker image..."
         sh "docker build -t $IMAGE_NAME ."
         sh "echo $PASS | docker login -u $USER --password-stdin"
