@@ -5,6 +5,6 @@ export DOCKER_USER=$2
 export DOCKER_PASS=$3
 
 echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
-docker image prune
 docker-compose -f docker-compose.yml up --detach
+docker image prune -a --force
 echo "success"
