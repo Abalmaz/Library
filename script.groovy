@@ -17,7 +17,7 @@ def pushImage(){
 def runTest(){
     sh "docker run -d -e POSTGRES_HOST_AUTH_METHOD=trust postgres:9.6"
     sh "docker run $IMAGE_NAME"
-    sh "docker exec -it $IMAGE_NAME ./manage.py jenkins"
+    sh "docker exec -it $IMAGE_NAME ./manage.py jenkins --settings=library.settings.test"
 }
 
 def provisionServer(){
