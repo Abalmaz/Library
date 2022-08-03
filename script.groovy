@@ -21,8 +21,8 @@ def runTest(){
     myTestContainer.inside("--link ${db.id}:db"){
         sh "./manage.py jenkins"
     }
-    echo "docker stop $(docker ps -a -q)"
-    echo "docker rm $(docker ps -a -q)"
+//     echo "docker stop $(docker ps -a -q)"
+//     echo "docker rm $(docker ps -a -q)"
 }
 
 def provisionServer(){
