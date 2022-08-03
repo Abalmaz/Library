@@ -16,15 +16,13 @@ def pushImage(){
 
 def runTest(){
 //     sh "docker run -d -e POSTGRES_HOST_AUTH_METHOD=trust --name='db' postgres:9.6"
-    def myTestDB = docker.image('postgres:9.6').run("-e POSTGRES_HOST_AUTH_METHOD=trust --name='db' --rm")
+    def db = docker.image('postgres:9.6').run("-e POSTGRES_HOST_AUTH_METHOD=trust --rm")
     def myTestContainer = docker.image(IMAGE_NAME)
-    myTestContainer.inside("--link db"){
-        sh "./manage.py test"
+    myTestContainer.inside("--link ${db.id}:db"){
+        sh "./manage.py jenkins"
     }
-//     sh "docker run -d --name='test_lib' --link db $IMAGE_NAME"
-//     sh "docker exec -i test_lib ./manage.py jenkins"
-//     sh "docker stop $(docker ps -a -q)"
-//     sh "docker rm $(docker ps -a -q)"
+    sh "docker stop $(docker ps -a -q)"
+    sh "docker rm $(docker ps -a -q)"
 }
 
 def provisionServer(){
