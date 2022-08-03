@@ -15,9 +15,14 @@ def pushImage(){
 }
 
 def runTest(){
-    sh "docker run -d -e POSTGRES_HOST_AUTH_METHOD=trust --name='db' postgres:9.6"
-    sh "docker run -d --name='test_lib' --link db $IMAGE_NAME"
-    sh "docker exec -i test_lib ./manage.py jenkins"
+//     sh "docker run -d -e POSTGRES_HOST_AUTH_METHOD=trust --name='db' postgres:9.6"
+    def myTestDB = docker.image('postgres:9.6').run("-d -e POSTGRES_HOST_AUTH_METHOD=trust --name='db'")
+    def myTestContainer = docker.image(IMAGE_NAME)
+    myTestContainer.inside("--link ${myTestDB.id}:db"){
+        sh "./manage.py test"
+    }
+//     sh "docker run -d --name='test_lib' --link db $IMAGE_NAME"
+//     sh "docker exec -i test_lib ./manage.py jenkins"
 //     sh "docker stop $(docker ps -a -q)"
 //     sh "docker rm $(docker ps -a -q)"
 }
