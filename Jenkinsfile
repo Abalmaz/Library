@@ -29,15 +29,18 @@ pipeline {
         stage("Build image") {
             steps {
                 script {
-                    def djangoImage = sh "docker build -t $IMAGE_NAME ."
+                    def djangoImage = docker.image(gv.buildImage())
                 }
             }
         }
         stage("Run tests") {
             steps {
                 script {
-                    djangoImage.run('echo', '"Rub test"')
-                    djangoImage.run('./manage.py', 'test')
+                def postgresImage = docker.image('postgres:9.6').run("-e  POSTGRES_HOST_AUTH_METHOD=trust --rm")
+                    djangoImage.pull()
+                    djangoImage.inside(){
+                        sh "./manage.py jenkins"
+                    }
                 }
             }
         }

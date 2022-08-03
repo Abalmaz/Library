@@ -29,8 +29,8 @@ class AuthorModelTest(TestCase):
         max_length = self.author._meta.get_field('middle_name').max_length
         self.assertEquals(max_length, 25)
 
-    def test_object_name_is_second_name(self):
-        expected_object_name = '{}'.format(self.author.second_name)
+    def test_object_name_is_short_name(self):
+        expected_object_name = '{}'.format(self.author.short_name)
         self.assertEquals(expected_object_name, str(self.author))
 
     def test_full_name(self):

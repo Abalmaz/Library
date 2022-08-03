@@ -31,4 +31,4 @@ class TestAuthorModel(TestCase):
         self.author = Author.objects.get(id=1)
 
     def test_author_object_name(self):
-        self.assertEqual(self.author.second_name, str(self.author))
+        self.assertEqual(self.author.short_name, str(self.author))
