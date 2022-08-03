@@ -18,6 +18,7 @@ def runTest(){
 //     sh "docker run -d -e POSTGRES_HOST_AUTH_METHOD=trust --name='db' postgres:9.6"
     def db = docker.image('postgres:9.6').run("-e POSTGRES_HOST_AUTH_METHOD=trust --rm")
     def myTestContainer = docker.image(IMAGE_NAME)
+    sh "sleep 5"
     myTestContainer.inside("--link ${db.id}:db"){
         sh "./manage.py jenkins"
     }
