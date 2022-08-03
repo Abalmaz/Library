@@ -29,7 +29,7 @@ pipeline {
         stage("Build image") {
             steps {
                 script {
-                    def djangoImage = gv.buildImage()
+                    def djangoImage = sh "docker build -t $IMAGE_NAME ."
                 }
             }
         }
