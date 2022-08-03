@@ -1,10 +1,9 @@
-from .base import *  # noqa
-from .base import env
+from .base import *
 
 # GENERAL
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#secret-key
-SECRET_KEY = env(
+SECRET_KEY = os.environ.get(
     "DJANGO_SECRET_KEY",
     default="YK67caMGTKvxeSxyAp9Yn7vi3YYFEzogFE62lVlWZROzaXG2ESUa1GwWzDHh5GYg",
 )
