@@ -16,9 +16,9 @@ def pushImage(){
 
 def runTest(){
 //     sh "docker run -d -e POSTGRES_HOST_AUTH_METHOD=trust --name='db' postgres:9.6"
-    def myTestDB = docker.image('postgres:9.6').run("-d -e POSTGRES_HOST_AUTH_METHOD=trust --name='db'")
+    def myTestDB = docker.image('postgres:9.6').run("-e POSTGRES_HOST_AUTH_METHOD=trust --name='db' --rm")
     def myTestContainer = docker.image(IMAGE_NAME)
-    myTestContainer.inside("--link ${myTestDB.id}:db"){
+    myTestContainer.inside("--link db"){
         sh "./manage.py test"
     }
 //     sh "docker run -d --name='test_lib' --link db $IMAGE_NAME"
