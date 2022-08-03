@@ -1,4 +1,7 @@
 /env
+/.env
+/venv
+/.venv
 /.idea
 db.sqlite3
 __pycache__/
