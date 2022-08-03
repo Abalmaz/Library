@@ -26,14 +26,29 @@ pipeline {
                 }
             }
         }
-        stage("Build and push image") {
+        stage("Build image") {
             steps {
                 script {
-                    gv.buildImage()
-                    gv.pushImage()
+                    def djangoImage = gv.buildImage()
                 }
             }
         }
+        stage("Run tests") {
+            steps {
+                script {
+                    djangoImage.run('echo', '"Rub test"')
+                    djangoImage.run('./manage.py', 'test')
+                }
+            }
+        }
+        stage("Push image") {
+                    steps {
+                        script {
+                            gv.buildImage()
+                            gv.pushImage()
+                        }
+                    }
+                }
         stage("deploy") {
             environment {
                 DOCKER_CREDS = credentials('docker-hub')
