@@ -19,18 +19,19 @@ def runTest(){
     sh "docker run -d -v $PROJECT_PATH/reports:/app/reports  --rm --link=db:db $IMAGE_NAME ./manage.py jenkins --enable-coverage"
     post {
         always {
-         step([$class: 'CoberturaPublisher',
-          autoUpdateHealth: false,
-          autoUpdateStability: false,
-          coberturaReportFile: 'reports/coverage.xml',
-          failUnhealthy: false,
-          failUnstable: false,
-          maxNumberOfBuilds: 0,
-          onlyStable: false,
-          sourceEncoding: 'ASCII',
-          zoomCoverageChart: false
-         ])
+             step([$class: 'CoberturaPublisher',
+              autoUpdateHealth: false,
+              autoUpdateStability: false,
+              coberturaReportFile: 'reports/coverage.xml',
+              failUnhealthy: false,
+              failUnstable: false,
+              maxNumberOfBuilds: 0,
+              onlyStable: false,
+              sourceEncoding: 'ASCII',
+              zoomCoverageChart: false
+             ])
         }
+    }
 
 //     sh "docker run -d -e POSTGRES_HOST_AUTH_METHOD=trust --name='db' postgres:9.6"
 //     def db = docker.image('postgres:9.6').run("-e POSTGRES_HOST_AUTH_METHOD=trust --rm")
