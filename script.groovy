@@ -16,17 +16,7 @@ def pushImage(){
 
 def runTest(){
     sh "docker start db || docker run -d -e POSTGRES_HOST_AUTH_METHOD=trust --rm --name='db' postgres:9.6"
-    sh "docker run -d -v $PROJECT_PATH/reports:/app/reports  --rm --link=db:db $IMAGE_NAME ./manage.py jenkins --enable-coverage"
-
-//     sh "docker run -d -e POSTGRES_HOST_AUTH_METHOD=trust --name='db' postgres:9.6"
-//     def db = docker.image('postgres:9.6').run("-e POSTGRES_HOST_AUTH_METHOD=trust --rm")
-//     def myTestContainer = docker.image(IMAGE_NAME)
-//     sh "sleep 5"
-//     myTestContainer.inside("--link ${db.id}:db"){
-//         sh "./manage.py jenkins"
-//     }
-//     echo "docker stop $(docker ps -a -q)"
-//     echo "docker rm $(docker ps -a -q)"
+    sh "docker run -v $WORKSPACE/reports:/app/reports  --rm --link=db:db $IMAGE_NAME python manage.py jenkins --enable-coverage"
 }
 
 def provisionServer(){
