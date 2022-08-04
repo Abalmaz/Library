@@ -15,7 +15,7 @@ def pushImage(){
 }
 
 def runTest(){
-    sh "docker run -d -e POSTGRES_HOST_AUTH_METHOD=trust --rm --name='db' postgres:9.6"
+    sh "docker start db || docker run -d -e POSTGRES_HOST_AUTH_METHOD=trust --rm --name='db' postgres:9.6"
     sh "docker run -d -v $PROJECT_PATH/reports:/app/reports  --rm --link=db:db $IMAGE_NAME ./manage.py jenkins --enable-coverage"
 
 //     sh "docker run -d -e POSTGRES_HOST_AUTH_METHOD=trust --name='db' postgres:9.6"
