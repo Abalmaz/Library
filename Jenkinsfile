@@ -5,6 +5,7 @@ pipeline {
     environment {
         HASH_COMMIT = GIT_COMMIT.substring(0, 8)
         IMAGE_NAME="abalmaz/library:$HASH_COMMIT-$BUILD_NUMBER"
+        PROJECT_PATH = "/var/lib/jenkins/workspace/library-pipeline-dev"
     }
     stages {
         stage("init"){
