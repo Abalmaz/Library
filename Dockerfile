@@ -8,6 +8,6 @@ WORKDIR /app
 COPY requirements.txt docker-entrypoint.sh /app/
 RUN pip install -r requirements.txt
 ADD . /app
-ENTRYPOINT  ["sh", "/app/docker-entrypoint.sh"]
+CMD  ["sh", "/app/docker-entrypoint.sh"]
 EXPOSE 8000
 LABEL maintainer="abalmaz"
