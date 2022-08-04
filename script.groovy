@@ -22,6 +22,10 @@ def runTest(){
 def provisionServer(){
     dir('terraform') {
         sh "terraform init"
+        TR_APPLY_STATUS = sh(
+             script: "terraform plan -detailed-exitcode",
+             returnStatus: true
+        )
         sh "terraform apply --auto-approve"
         EC2_PUBLIC_IP = sh(
             script: "terraform output ec2_public_ip",
@@ -33,6 +37,11 @@ def provisionServer(){
 def deployOnEC2(){
 
     echo "deploying docker image to EC2..."
+
+    if(TR_APPLY_STATUS == 2){
+        echo "waiting for EC2 server to initialize"
+        sleep(time: 90, unit: "SECONDS")
+    }
 
     def shellCmd = "bash ./server-cmds.sh ${IMAGE_NAME} ${DOCKER_CREDS_USR} ${DOCKER_CREDS_PSW}"
     def ec2Instance = "ec2-user@${EC2_PUBLIC_IP}"
