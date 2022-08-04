@@ -29,7 +29,7 @@ class BookCreateTest(BookCreateTestCase):
         self.response = self.client.get(self.url)
 
     def test_book_create_status_code(self):
-        self.assertEquals(self.response.status_code, 200)
+        self.assertEquals(self.response.status_code, 400)
 
     def test_book_create_view_function(self):
         view = resolve('/profile/books/')
